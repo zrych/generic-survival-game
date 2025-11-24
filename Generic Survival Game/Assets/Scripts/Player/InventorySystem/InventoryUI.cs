@@ -4,6 +4,7 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject inventoryPanel;
     public InventorySlot[] slots;
+    public InventoryManager inventoryManager;
     void Start()
     {
         inventoryPanel.SetActive(false);
@@ -25,9 +26,9 @@ public class InventoryUI : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (InventoryManager.instance.items[i] != null)
+            if (inventoryManager.items[i] != null)
             {
-                slots[i].SetItem(InventoryManager.instance.items[i]);
+                slots[i].SetItem(inventoryManager.items[i]);
             } else
             {
                 slots[i].ClearSlot();

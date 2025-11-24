@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 4;
+    public float walkSpeed = 2f;
+    public float sprintSpeed = 4f;
 
     private float speedX, speedY;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sr;
+
+    public bool IsSprinting { get; private set; }
 
     void Start()
     {
@@ -21,13 +24,17 @@ public class PlayerMovement : MonoBehaviour
         speedX = Input.GetAxisRaw("Horizontal");
         speedY = Input.GetAxisRaw("Vertical");
 
+        IsSprinting = Input.GetKey(KeyCode.LeftShift);
+        float currentSpeed = IsSprinting ? sprintSpeed : walkSpeed;
+
         // apply movement
-        rb.linearVelocity = new Vector2(speedX * moveSpeed, speedY * moveSpeed);
+        rb.linearVelocity = new Vector2(speedX * currentSpeed, speedY * currentSpeed);
 
         // send movement values to animator
         anim.SetFloat("MoveX", speedX);
         anim.SetFloat("MoveY", speedY);
         anim.SetFloat("Speed", rb.linearVelocity.sqrMagnitude);
+        anim.SetBool("IsSprinting", IsSprinting);
 
         // flip sprite for left movement (if you only have right-facing art)
         if (speedX < 0)
