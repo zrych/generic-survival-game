@@ -44,6 +44,12 @@ TagManager:
   - name: Ground
     uniqueID: 837286665
     locked: 0
+  - name: SmallFoliage
+    uniqueID: 2285491997
+    locked: 0
+  - name: BigFoliage
+    uniqueID: 2912090723
+    locked: 0
   - name: Player
     uniqueID: 2079040059
     locked: 0
