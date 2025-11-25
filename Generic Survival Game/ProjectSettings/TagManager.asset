@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hittable
   - Water
   - UI
   - 
@@ -50,8 +50,17 @@ TagManager:
   - name: BigFoliage
     uniqueID: 2912090723
     locked: 0
+  - name: ResourceNodes
+    uniqueID: 2916286825
+    locked: 0
   - name: Player
     uniqueID: 2079040059
+    locked: 0
+  - name: Overhead
+    uniqueID: 4151801173
+    locked: 0
+  - name: Crosshair
+    uniqueID: 3863529083
     locked: 0
   m_RenderingLayers:
   - Default
