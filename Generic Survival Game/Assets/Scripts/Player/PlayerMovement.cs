@@ -37,9 +37,9 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("IsSprinting", IsSprinting);
 
         // flip sprite for left movement (if you only have right-facing art)
-        if (speedX < 0)
-            sr.flipX = true;
-        else if (speedX > 0)
-            sr.flipX = false;
+        //if (speedX < 0)
+        //    sr.flipX = true;
+        //else if (speedX > 0)
+        //    sr.flipX = false;
     }
 }

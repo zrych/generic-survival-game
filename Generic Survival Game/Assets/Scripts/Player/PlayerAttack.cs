@@ -7,10 +7,24 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask hittableMask;
 
     [SerializeField] private Animator armAnim;
+    [SerializeField] private Transform armTransform;
 
 
     void Update()
     {
+        Vector2 playerPos = transform.position;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // Flip only the Arm, not the whole player
+        if (mousePos.x < playerPos.x)
+        {
+            armTransform.localScale = new Vector3(-1, 1, 1); // face left
+        }
+        else
+        {
+            armTransform.localScale = new Vector3(1, 1, 1); // face right
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             armAnim.SetBool("IsAttacking", true);

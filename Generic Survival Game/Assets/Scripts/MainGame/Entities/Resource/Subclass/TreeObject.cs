@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tree : ResourceNode
+public class TreeObject : ResourceNode
 {
     protected override void BreakNode()
     {

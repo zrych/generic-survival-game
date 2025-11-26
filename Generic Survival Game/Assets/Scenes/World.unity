@@ -8936,6 +8936,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   armAnim: {fileID: 1633276044}
+  armTransform: {fileID: 1633276043}
 --- !u!114 &1446317021 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5319638694514278814, guid: 15541fe449f48ef489b568317432294f, type: 3}
@@ -9115,7 +9116,7 @@ Transform:
   m_GameObject: {fileID: 1633276042}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.506, y: -0.382, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9192,7 +9193,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.375, y: 0.25}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -10086,6 +10087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1444111799}
   maxRange: 3
+  playerSprite: {fileID: 1444111798}
 --- !u!212 &1872852722
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11771,8 +11773,8 @@ SceneRoots:
   - {fileID: 542699406}
   - {fileID: 90789171}
   - {fileID: 1367720800}
-  - {fileID: 1444111799}
   - {fileID: 1872852723}
   - {fileID: 504464695}
   - {fileID: 84817188}
   - {fileID: 2037105629}
+  - {fileID: 1444111799}
