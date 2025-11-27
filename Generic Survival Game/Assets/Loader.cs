@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +23,6 @@ public class LevelLoader : MonoBehaviour
         yield return new WaitForSeconds(transitionTime);
 
         // Load next scene
-        SceneManager.LoadScene(TWorldSelect);
+        SceneManager.LoadScene("TWorldSelect");
     }
 }
