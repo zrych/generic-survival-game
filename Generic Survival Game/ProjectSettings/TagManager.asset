@@ -53,6 +53,9 @@ TagManager:
   - name: ResourceNodes
     uniqueID: 2916286825
     locked: 0
+  - name: Item
+    uniqueID: 343374173
+    locked: 0
   - name: Player
     uniqueID: 2079040059
     locked: 0

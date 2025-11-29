@@ -8,8 +8,9 @@ public class CrosshairController : MonoBehaviour
 
     void Update()
     {
-        // Get mouse position in world space
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // Get mouse position in world space
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;  // Because it’s 2D
 
 

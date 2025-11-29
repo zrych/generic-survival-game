@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    public GameObject inventoryUI;   // Assign your inventory UI GameObject
-    public GameObject pauseMenuUI;   // Assign your pause menu UI GameObject
+    [SerializeField] private GameObject inventoryUI;   // Assign your inventory UI GameObject
+    [SerializeField] private GameObject pauseMenuUI;   // Assign your pause menu UI GameObject
+
+    public bool isUiOpen;
 
     void Update()
     {
         // Check if inventory or pause menu is active
-        bool uiOpen = (inventoryUI.activeSelf || pauseMenuUI.activeSelf);
+        isUiOpen = (inventoryUI.activeSelf || pauseMenuUI.activeSelf);
 
-        if (uiOpen)
+        if (isUiOpen)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None; // free cursor movement

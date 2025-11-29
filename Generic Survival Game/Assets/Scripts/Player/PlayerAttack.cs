@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private Animator armAnim;
     [SerializeField] private Transform armTransform;
-
+    [SerializeField] private CursorManager cursorManager;
 
     void Update()
     {
@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
             armTransform.localScale = new Vector3(1, 1, 1); // face right
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && cursorManager.isUiOpen == false)
         {
             armAnim.SetBool("IsAttacking", true);
             Attack();
@@ -35,20 +35,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    //void Attack()
-    //{
-
-    //    RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, attackRange, hittableMask);
-
-    //    if (hit.collider != null)
-    //    {
-    //        IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
-    //        if (damageable != null)
-    //        {
-    //            damageable.TakeDamage(baseDamage);
-    //        }
-    //    }
-    //}
 
     void Attack()
     {
