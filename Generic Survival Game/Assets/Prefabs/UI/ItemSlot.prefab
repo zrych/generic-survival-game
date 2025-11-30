@@ -91,14 +91,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42fd8dd36c407241ba7b8bf1f5b05d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
+  quantity: 0
   isFull: 0
+  isEmpty: 1
   quantityText: {fileID: 5192512468835728503}
   itemImage: {fileID: 3198716554427577808}
   itemDescImage: {fileID: 0}
   itemDescText: {fileID: 0}
   itemNameDesc: {fileID: 0}
+  swap1Button: {fileID: 0}
+  swap2Button: {fileID: 0}
+  swap3Button: {fileID: 0}
   emptySprite: {fileID: -5700235093934245331, guid: 35399c465a668704197d5f36d6156b6d, type: 3}
+  currentItem: {fileID: 3699863700954178346}
   selectedShade: {fileID: 6003692119487774342}
+  item: {fileID: 0}
 --- !u!1 &3699863700954178346
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +132,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3699863700954178346}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -208,7 +216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -4.9999847, y: 5}
+  m_AnchoredPosition: {x: -24.999935, y: 25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8137731313329490632

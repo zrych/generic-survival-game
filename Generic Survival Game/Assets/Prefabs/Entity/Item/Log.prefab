@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: a8f5f0b77c4fe8c47ab7dd75794de46a, type: 2}
-  quantity: 6
+  quantity: 9
 --- !u!212 &7953814727905471547
 SpriteRenderer:
   m_ObjectHideFlags: 0

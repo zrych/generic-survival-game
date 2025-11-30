@@ -3,7 +3,7 @@ using UnityEngine;
 public class ItemObject : MonoBehaviour
 {
     [SerializeField] private Item item; //contains the item name, desc, etc.
-    [SerializeField] private int quantity = 1;
+    [HideInInspector] public int quantity;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -4,8 +4,7 @@ public class InventoryUIManager : MonoBehaviour
 {
     public GameObject inventoryUI;
     private bool isToggled = false;
-    [SerializeField] private GameObject crosshair;
-    [SerializeField] private ItemSlotManager[] itemSlot;
+    [SerializeField] public ItemSlotManager[] itemSlot = new ItemSlotManager[15];
 
     public static InventoryUIManager Instance { get; private set; }
 
@@ -33,9 +32,6 @@ public class InventoryUIManager : MonoBehaviour
             isToggled = !isToggled;
 
             inventoryUI.SetActive(isToggled);
-
-            if (isToggled == true) crosshair.SetActive(false);
-            else crosshair.SetActive(true);
         }
     }
 
@@ -58,6 +54,7 @@ public class InventoryUIManager : MonoBehaviour
         for (int i = 0; i < itemSlot.Length; ++i)
         {
             itemSlot[i].selectedShade.SetActive(false);
+            itemSlot[i].isSlotSelected = false;
         }
     }
 }

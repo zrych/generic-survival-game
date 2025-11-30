@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
 {
@@ -11,20 +10,28 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
     private Sprite itemIcon;
     public bool isFull;
     private string itemDesc;
+    public bool isEmpty = true;
 
     private int maxItems = 10;
 
+
     [SerializeField] private TMP_Text quantityText;
-    [SerializeField] private Image itemImage;
+    [SerializeField] public Image itemImage;
     [SerializeField] private Image itemDescImage;
     [SerializeField] private TMP_Text itemDescText;
     [SerializeField] private TMP_Text itemNameDesc;
+    [SerializeField] private Button swap1Button;
+    [SerializeField] private Button swap2Button;
+    [SerializeField] private Button swap3Button;
 
     [SerializeField] private Sprite emptySprite;
 
-
+    public GameObject currentItem; // The visual representation of the item
     public GameObject selectedShade;
-    private bool isSlotSelected;
+
+    public bool isSlotSelected;
+
+    [HideInInspector] public Item item;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -37,6 +44,10 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
     public int StoreItem(Item item, int qty)
     {
         if (isFull) return qty;
+
+        this.item = item;
+
+        isEmpty = false;
 
         itemName = item.itemName;
         itemIcon = item.itemIcon;
@@ -62,18 +73,53 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         return 0;
     }
 
-    private void SelectSlot()
+    public void SelectSlot()
     {
         InventoryUIManager.Instance.DeselectAllSlots();
-        selectedShade.SetActive(true);
+        if (selectedShade != null)
+            selectedShade.SetActive(true);
         isSlotSelected = true;
+
         itemNameDesc.text = itemName;
         itemDescText.text = itemDesc;
-        itemDescImage.sprite = itemIcon;
+        itemDescImage.sprite = itemIcon != null ? itemIcon : emptySprite;
 
         if (itemDescImage.sprite == null)
         {
             itemDescImage.sprite = emptySprite;
         }
+
+        if (isEmpty == true)
+        {
+            SetSwapButtons(false);
+        } else
+        {
+            SetSwapButtons(true);
+        }
+    }
+
+    private void SetSwapButtons(bool decision)
+    {
+        swap1Button.gameObject.SetActive(decision);
+        swap2Button.gameObject.SetActive(decision);
+        swap3Button.gameObject.SetActive(decision);
+    }
+
+    public void EmptySlot()
+    {
+        item = null;
+        itemName = null;
+        quantity = 0;
+        itemIcon = null;
+        isFull = false;
+        itemDesc = null;
+
+        isEmpty = true;
+
+        if (itemImage != null)
+            itemImage.sprite = emptySprite;
+
+        if (quantityText != null)
+            quantityText.gameObject.SetActive(false);
     }
 }

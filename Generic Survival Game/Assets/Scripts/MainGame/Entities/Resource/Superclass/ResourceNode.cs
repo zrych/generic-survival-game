@@ -8,9 +8,12 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
     [SerializeField] private int maxYield;
     private float currentHP;
 
+    private ItemObject itemDrop;
+
     protected virtual void Start()
     {
         currentHP = hp;
+        itemDrop = itemYield.GetComponent<ItemObject>();
     }
 
     public void TakeDamage(float amount)
@@ -25,6 +28,9 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
 
     public void BreakNode()
     {
+        int yieldQuantity = Random.Range(minYield, maxYield + 1);
+        itemDrop.quantity = yieldQuantity;
+
         Instantiate(itemYield, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
