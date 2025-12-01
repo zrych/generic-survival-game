@@ -26,7 +26,6 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private Sprite emptySprite;
 
-    public GameObject currentItem; // The visual representation of the item
     public GameObject selectedShade;
 
     public bool isSlotSelected;
@@ -73,6 +72,34 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         return 0;
     }
 
+    public void DeductItem(int qty)
+    {
+        int newQuantity = quantity - qty;
+        if (newQuantity == 0)
+        {
+            //Remove item
+            EmptySlot();
+
+        } else if (newQuantity < 0)
+        {
+            int quantityLeftovers = qty - quantity;
+            EmptySlot();
+
+            InventoryUIManager inventory = InventoryUIManager.Instance;
+            for (int i = 0; i < inventory.itemSlot.Length; i++)
+            {
+                if (inventory.itemSlot[i].item == this.item && inventory.itemSlot[i].isSlotSelected == false)
+                {
+                    DeductItem(quantityLeftovers);
+                }
+            }
+        } else
+        {
+            quantity = newQuantity;
+            quantityText.text = quantity.ToString();
+        }
+    }
+
     public void SelectSlot()
     {
         InventoryUIManager.Instance.DeselectAllSlots();
@@ -95,6 +122,19 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         } else
         {
             SetSwapButtons(true);
+        }
+
+        //If player selects a tool/weapon
+        if (item != null && item.isTool)
+        {
+            PlayerAttack.Instance.isHoldingTool = true;
+            PlayerAttack.Instance.heldTool = item;
+        } //TODO: ANOTHER CONDITION FOR WEAPON
+
+        if (item == null || !item.isTool)
+        {
+            PlayerAttack.Instance.isHoldingTool = false;
+            PlayerAttack.Instance.heldTool = null;
         }
     }
 

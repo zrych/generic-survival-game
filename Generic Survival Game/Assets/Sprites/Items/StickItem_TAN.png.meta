@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 16b4c0794c287df4e9ca1fbf49f805bb
+guid: e72782b749b9ac046ae9ae0cdf92a6ad
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4326844862488913464
-    second: CraftBench_TAN_0
+      213: -868955055948381572
+    second: StickItem_TAN_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CraftBench_TAN_0
+      name: StickItem_TAN_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83620e25a7a0c0c30800000000000000
-      internalID: 4326844862488913464
+      spriteID: c72ca640bf9d0f3f0800000000000000
+      internalID: -868955055948381572
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a8f6e6c49a1f45247983456eae590f5d
+    spriteID: 2c14fbe0c2339b24da75f2b287645126
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CraftBench_TAN_0: 4326844862488913464
+      StickItem_TAN_0: -868955055948381572
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

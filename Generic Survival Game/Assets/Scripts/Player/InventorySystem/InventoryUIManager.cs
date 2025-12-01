@@ -39,10 +39,20 @@ public class InventoryUIManager : MonoBehaviour
     {
         for (int i = 0; i < itemSlot.Length; i++)
         {
-            if (itemSlot[i].isFull == false && itemSlot[i].itemName == item.itemName || itemSlot[i].quantity == 0)
+            if (!itemSlot[i].isFull && itemSlot[i].itemName == item.itemName)
             {
                 int leftOverItems = itemSlot[i].StoreItem(item, quantity);
-                if (leftOverItems > 0) leftOverItems = AddItem(item, leftOverItems);
+                if (leftOverItems > 0) return AddItem(item, leftOverItems);
+                return leftOverItems;
+            }
+        }
+
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].quantity == 0)
+            {
+                int leftOverItems = itemSlot[i].StoreItem(item, quantity);
+                if (leftOverItems > 0) return AddItem(item, leftOverItems);
                 return leftOverItems;
             }
         }

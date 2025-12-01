@@ -9,6 +9,31 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Animator armAnim;
     [SerializeField] private Transform armTransform;
     [SerializeField] private CursorManager cursorManager;
+    [SerializeField] private float attackCooldown = 0.5f;
+
+    public Item heldTool;
+    public Item heldWeapon;
+    public bool isHoldingTool = false;
+    private bool isAttacking;
+
+    public static PlayerAttack Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void ToolIdleAnimation(bool toggle)
+    {
+        armAnim.SetBool("IsHoldingAxeWood", toggle);
+    }
 
     void Update()
     {
@@ -25,18 +50,34 @@ public class PlayerAttack : MonoBehaviour
             armTransform.localScale = new Vector3(1, 1, 1); // face right
         }
 
+        ToolIdleAnimation(isHoldingTool);
+
         if (Input.GetMouseButtonDown(0) && cursorManager.isUiOpen == false)
         {
-            armAnim.SetBool("IsAttacking", true);
-            Attack();
-        } else
-        {
-            armAnim.SetBool("IsAttacking", false);
+            if (heldTool != null)
+            {
+                if (heldTool.itemName == "Wooden Axe")
+                {
+                    armAnim.SetTrigger("AttackAxeWood");
+                    Attack(heldTool.resourceDamage, true);
+                    Invoke(nameof(ResetAttack), attackCooldown);
+                }
+            }
+            else
+            {
+                armAnim.SetTrigger("Attack");
+                Attack(baseDamage, false);
+                Invoke(nameof(ResetAttack), attackCooldown);
+            }
         }
     }
 
+    private void ResetAttack()
+    {
+        isAttacking = false;
+    }
 
-    void Attack()
+    void Attack(float damage, bool isTool)
     {
         Vector2 playerPos = transform.position;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -59,7 +100,7 @@ public class PlayerAttack : MonoBehaviour
                 IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(baseDamage);
+                    damageable.TakeDamage(damage);
                 }
             }
         }

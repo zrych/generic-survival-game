@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: fc4bd34bc2a5d4c4a836fa70a0d34257
+guid: b2ba090ae3bf4de47ba36e8380a18c62
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1187144355964321404
-    second: attackAnim_0
+      213: -4782298264856836401
+    second: WoodAxe_Idle_Tan-sheet_0
+  - first:
+      213: -2941852551652633293
+    second: WoodAxe_Idle_Tan-sheet_1
+  - first:
+      213: -5250834137879676598
+    second: WoodAxe_Idle_Tan-sheet_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: attackAnim_0
+      name: WoodAxe_Idle_Tan-sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
-        width: 6
-        height: 4
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,96 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7efc528085997010800000000000000
-      internalID: 1187144355964321404
+      spriteID: fc6cd39d01dd1adb0800000000000000
+      internalID: -4782298264856836401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: attackAnim_1
+      name: WoodAxe_Idle_Tan-sheet_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 12
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a8098a6636c475945bbf018d3c9e3986
-      internalID: 582163515
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: attackAnim_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 8
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5840d2d27990ef2489ad5f3be2460cdf
-      internalID: -1174435680
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: attackAnim_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 4
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3a42d031ad8422343ad0d7e39d856da2
-      internalID: -870664117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: attackAnim_4
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 32
         y: 0
-        width: 6
-        height: 4
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: f424cb89323ff53478c3876e4cd20aad
-      internalID: -1631475649
+      spriteID: 3351b2dd0b07c27d0800000000000000
+      internalID: -2941852551652633293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WoodAxe_Idle_Tan-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a49ff25fb2a4127b0800000000000000
+      internalID: -5250834137879676598
       vertices: []
       indices: 
       edges: []
@@ -226,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 821183a09127287408d9182da0fb3cb2
+    spriteID: bf366e1f4c091604597215e795b329f9
     internalID: 0
     vertices: []
     indices: 
@@ -236,11 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      attackAnim_0: 1187144355964321404
-      attackAnim_1: 582163515
-      attackAnim_2: -1174435680
-      attackAnim_3: -870664117
-      attackAnim_4: -1631475649
+      WoodAxe_Idle_Tan-sheet_0: -4782298264856836401
+      WoodAxe_Idle_Tan-sheet_1: -2941852551652633293
+      WoodAxe_Idle_Tan-sheet_2: -5250834137879676598
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

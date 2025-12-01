@@ -3,17 +3,21 @@ using UnityEngine;
 public abstract class ResourceNode : MonoBehaviour, IDamageable
 {
     [SerializeField] private float hp;
-    [SerializeField] private GameObject itemYield; //item prefab goes here
-    [SerializeField] private int minYield;
-    [SerializeField] private int maxYield;
+    [SerializeField] private GameObject[] itemYields; //item prefab goes here
+    [SerializeField] private int[] minYield;
+    [SerializeField] private int[] maxYield;
     private float currentHP;
 
-    private ItemObject itemDrop;
+    private ItemObject[] itemDrops;
 
     protected virtual void Start()
     {
+        itemDrops = new ItemObject[itemYields.Length];
         currentHP = hp;
-        itemDrop = itemYield.GetComponent<ItemObject>();
+        for (int i = 0; i < itemYields.Length; i++)
+        {
+            itemDrops[i] = itemYields[i].GetComponent<ItemObject>();
+        }
     }
 
     public void TakeDamage(float amount)
@@ -28,10 +32,18 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
 
     public void BreakNode()
     {
-        int yieldQuantity = Random.Range(minYield, maxYield + 1);
-        itemDrop.quantity = yieldQuantity;
+        
 
-        Instantiate(itemYield, transform.position, Quaternion.identity);
+        for (int i = 0; i < itemDrops.Length; i++)
+        {
+            int yieldQuantity = Random.Range(minYield[i], maxYield[i] + 1);
+            itemDrops[i].quantity = yieldQuantity;
+            Vector2 scatterOffset = new Vector2(
+                Random.Range(-0.7f, 0.7f), // adjust X spread
+                Random.Range(-0.2f, 0.2f)  // adjust Y spread (less vertical scatter)
+            );
+            Instantiate(itemYields[i], (Vector2)transform.position + scatterOffset, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 }
