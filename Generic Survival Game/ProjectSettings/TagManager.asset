@@ -56,7 +56,7 @@ TagManager:
   - name: Item
     uniqueID: 343374173
     locked: 0
-  - name: Player
+  - name: Entities
     uniqueID: 2079040059
     locked: 0
   - name: Overhead

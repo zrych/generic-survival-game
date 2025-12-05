@@ -98,8 +98,16 @@ public class PlayerAttack : MonoBehaviour
             if (angle <= 22.5f) // half of 45 degrees
             {
                 IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
+                Debug.Log(damageable);
                 if (damageable != null)
                 {
+                    damageable.TakeDamage(damage);
+                    Chicken chicken;
+                    if (chicken = hitCollider.GetComponent<Chicken>())
+                        chicken.OnHit(transform.position);
+                } else
+                {
+                    damageable = hitCollider.GetComponent<IDamageable>();
                     damageable.TakeDamage(damage);
                 }
             }

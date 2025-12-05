@@ -15,4 +15,9 @@ public class Item : ScriptableObject
     public float resourceDamage;
     public float enemyDamage;
     public int durability;
+
+    [Header("Consumable Info")]
+    public bool isConsumable;
+    public float hpRestore;
+    public float hungerRestore;
 }

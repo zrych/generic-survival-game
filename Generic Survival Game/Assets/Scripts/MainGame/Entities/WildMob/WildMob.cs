@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public abstract class ResourceNode : MonoBehaviour, IDamageable
+public class WildMob : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float hp;
-    [SerializeField] private GameObject[] itemYields; //item prefab goes here
-    [SerializeField] private int[] minYield;
-    [SerializeField] private int[] maxYield;
+    [SerializeField] protected float maxHp;
+    [SerializeField] protected float moveSpeed = 1.5f;
+    protected Rigidbody2D rb;
+    protected Animator animator;
+
+    [SerializeField] protected GameObject[] itemYields; //item prefab goes here
+    [SerializeField] protected int[] minYield;
+    [SerializeField] protected int[] maxYield;
     private float currentHP;
 
     private ItemObject[] itemDrops;
@@ -13,7 +17,9 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
-        currentHP = hp;
+        currentHP = maxHp;
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         for (int i = 0; i < itemYields.Length; i++)
         {
             itemDrops[i] = itemYields[i].GetComponent<ItemObject>();
@@ -26,13 +32,13 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
         currentHP -= amount;
         if (currentHP <= 0)
         {
-            BreakNode();
+            KillSelf();
         }
     }
 
-    public void BreakNode()
+    public void KillSelf()
     {
-        
+
 
         for (int i = 0; i < itemDrops.Length; i++)
         {
