@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2265111869814704982}
   - component: {fileID: 2530953743238643953}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,9 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
-  itemYield: {fileID: 5858915999337192938, guid: bd5a1fcdbc5fe2348b32f34a3fa0bb5f, type: 3}
-  minYield: 1
-  maxYield: 2
+  itemYields:
+  - {fileID: 5858915999337192938, guid: bd5a1fcdbc5fe2348b32f34a3fa0bb5f, type: 3}
+  - {fileID: 5059071322483155982, guid: 075d1e494350fe94798caede3ae55dc1, type: 3}
+  minYield: 0100000001000000
+  maxYield: 0300000002000000
 --- !u!1 &7640799972360589487
 GameObject:
   m_ObjectHideFlags: 0

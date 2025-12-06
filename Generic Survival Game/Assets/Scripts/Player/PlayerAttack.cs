@@ -103,8 +103,11 @@ public class PlayerAttack : MonoBehaviour
                 {
                     damageable.TakeDamage(damage);
                     Chicken chicken;
+                    Boar boar;
                     if (chicken = hitCollider.GetComponent<Chicken>())
                         chicken.OnHit(transform.position);
+                    if (boar = hitCollider.GetComponent<Boar>())
+                        boar.OnHit(transform.position);
                 } else
                 {
                     damageable = hitCollider.GetComponent<IDamageable>();

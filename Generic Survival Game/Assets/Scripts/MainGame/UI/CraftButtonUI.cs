@@ -64,7 +64,7 @@ public class CraftButtonUI : MonoBehaviour
             if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "002") //ID of planks
             {
                 planksSlot = inventory.itemSlot[i];
-                int remaining = planksSlot.quantity - 3;
+                int remaining = planksSlot.quantity - 4;
                 if (remaining >= 0)
                 {
                     hasPlanks = true;
@@ -108,4 +108,139 @@ public class CraftButtonUI : MonoBehaviour
         }
     }
 
+    public void CraftWoodPickaxe()
+    {
+        InventoryUIManager inventory = InventoryUIManager.Instance;
+        ItemSlotManager planksSlot = null;
+        ItemSlotManager sticksSlot = null;
+        bool hasPlanks = false;
+        bool hasSticks = false;
+
+        Item woodPickaxe = null;
+
+        for (int i = 0; i < itemsToGive.Length; i++)
+        {
+            if (itemsToGive[i].itemId == "009")
+            {
+                woodPickaxe = itemsToGive[i];
+                break;
+            }
+        }
+
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "002") //ID of planks
+            {
+                planksSlot = inventory.itemSlot[i];
+                int remaining = planksSlot.quantity - 3;
+                if (remaining >= 0)
+                {
+                    hasPlanks = true;
+                    break;
+                }
+                else
+                {
+                    hasPlanks = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "003") //ID of sticks
+            {
+                sticksSlot = inventory.itemSlot[i];
+                int remaining = sticksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasSticks = true;
+                    break;
+                }
+                else
+                {
+                    hasSticks = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasPlanks == true && hasSticks == true)
+        {
+            planksSlot.DeductItem(3);
+            sticksSlot.DeductItem(2);
+            inventory.AddItem(woodPickaxe, 1);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void CraftWoodSword()
+    {
+        InventoryUIManager inventory = InventoryUIManager.Instance;
+        ItemSlotManager planksSlot = null;
+        ItemSlotManager sticksSlot = null;
+        bool hasPlanks = false;
+        bool hasSticks = false;
+
+        Item woodSword = null;
+
+        for (int i = 0; i < itemsToGive.Length; i++)
+        {
+            if (itemsToGive[i].itemId == "010")
+            {
+                woodSword = itemsToGive[i];
+                break;
+            }
+        }
+
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "002") //ID of planks
+            {
+                planksSlot = inventory.itemSlot[i];
+                int remaining = planksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasPlanks = true;
+                    break;
+                }
+                else
+                {
+                    hasPlanks = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "003") //ID of sticks
+            {
+                sticksSlot = inventory.itemSlot[i];
+                int remaining = sticksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasSticks = true;
+                    break;
+                }
+                else
+                {
+                    hasSticks = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasPlanks == true && hasSticks == true)
+        {
+            planksSlot.DeductItem(3);
+            sticksSlot.DeductItem(2);
+            inventory.AddItem(woodSword, 1);
+        }
+        else
+        {
+            return;
+        }
+    }
 }

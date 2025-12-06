@@ -39,6 +39,12 @@ public class PlayerStats : MonoBehaviour
         currentHunger = Mathf.Clamp(currentHunger, 0, maxHunger);
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+    }
+
     void HandleStarvation()
     {
         if (currentHunger <= 0)

@@ -27,6 +27,10 @@ public class Chicken : WildMob
     private Vector2 lastVelocity;
     private float speedX, speedY;
     private SpriteRenderer sr;
+
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private float obstacleCheckDistance = 0.4f;
+
     public enum State { Idle, Patrol, Panic }
 
     protected override void Start()
@@ -131,6 +135,18 @@ public class Chicken : WildMob
         ChooseNextIdle();
     }
 
+    private bool IsObstacleAhead(Vector2 direction)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            direction,
+            obstacleCheckDistance,
+            obstacleMask
+        );
+
+        return hit.collider != null;
+    }
+
     private void MoveToward(Vector2 worldTarget, float speed)
     {
         Vector2 dir = ((Vector2)worldTarget - rb.position);
@@ -140,6 +156,11 @@ public class Chicken : WildMob
             return;
         }
         dir.Normalize();
+        if (IsObstacleAhead(dir))
+        {
+            patrolTarget = RandomPointInCircle(spawnPoint, patrolRadius);
+            return;
+        }
         rb.linearVelocity = dir * speed;
     }
 
@@ -179,6 +200,17 @@ public class Chicken : WildMob
             // set flee dir away from attacker (re-evaluate attacker pos if player exists)
             if (playerTransform != null)
                 fleeDir = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
+
+
+            if (IsObstacleAhead(fleeDir))
+            {
+                // 90-degree turn left/right
+                fleeDir = Vector2.Perpendicular(fleeDir).normalized;
+
+                // randomize between left/right
+                if (Random.value > 0.5f)
+                    fleeDir = -fleeDir;
+            }
 
             rb.linearVelocity = fleeDir * panicSpeed;
 

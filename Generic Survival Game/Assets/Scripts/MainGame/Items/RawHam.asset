@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28de10d8ea1e6f049a7b977ca1b2c6f2, type: 3}
-  m_Name: RawChicken
+  m_Name: RawHam
   m_EditorClassIdentifier: 
-  itemId: 005
-  itemName: Raw Chicken
-  itemIcon: {fileID: -3822200024534056477, guid: 7352925ac362c15418facb93d12b5bef, type: 3}
-  itemDescription: Fresh, uncooked chicken meat. May be unsafe to eat raw.
+  itemId: 007
+  itemName: Raw Ham
+  itemIcon: {fileID: -7884444376979208396, guid: d45548c80b2479c448bf15cf2d0eb07f, type: 3}
+  itemDescription: A big chunk of uncooked ham. Must be cooked properly to avoid
+    illness.
   isTool: 0
   resourceDamage: 0
   enemyDamage: 0
   durability: 0
   isConsumable: 1
   hpRestore: -1
-  hungerRestore: 1
+  hungerRestore: 2

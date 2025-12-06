@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: e8c9b82e9ab86f3438a76441b365d58d
+guid: ab95ac6105aecd8438c05eaa97384044
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -622682221315901406
-    second: RawChicken_TAN_0
+      213: 1222717903596476407
+    second: WildBoar_TAN_0
+  - first:
+      213: 4858280281842843949
+    second: WildBoar_TAN_1
+  - first:
+      213: 412781460661416627
+    second: WildBoar_TAN_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RawChicken_TAN_0
+      name: WildBoar_TAN_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.34482765}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 228b38e91d9cb57f0800000000000000
-      internalID: -622682221315901406
+      spriteID: 7f7d0608477f7f010800000000000000
+      internalID: 1222717903596476407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildBoar_TAN_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3448277}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2107821d241c6340800000000000000
+      internalID: 4858280281842843949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildBoar_TAN_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3448277}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b2379c2d8e7ab500800000000000000
+      internalID: 412781460661416627
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bfc776ec8595a8d4fbb1cc15de6da4e3
+    spriteID: eafd5a4f9f9907e4d90850ec68e2cdeb
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RawChicken_TAN_0: -622682221315901406
+      WildBoar_TAN_0: 1222717903596476407
+      WildBoar_TAN_1: 4858280281842843949
+      WildBoar_TAN_2: 412781460661416627
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
