@@ -18,8 +18,10 @@ MonoBehaviour:
   itemDescription: Two sticks tied to some wood. Somehow works as a mining tool--just
     don't ask how.
   isTool: 1
+  toolType: 3
+  toolLevel: 1
   resourceDamage: 1.3
-  enemyDamage: 0
+  enemyDamage: 0.5
   durability: 30
   isConsumable: 0
   hpRestore: 0

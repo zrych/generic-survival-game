@@ -137,6 +137,8 @@ MonoBehaviour:
   - {fileID: 3757362134847758679, guid: afd4d2afa9f5aef429fdbfd17ea2d124, type: 3}
   minYield: 01000000
   maxYield: 01000000
+  requiredTools: 01000000040000000200000003000000
+  requiredToolLevels: 00000000010000000200000003000000
   panicSpeed: 2.5
   stoppingDistance: 0.1
   patrolRadius: 3

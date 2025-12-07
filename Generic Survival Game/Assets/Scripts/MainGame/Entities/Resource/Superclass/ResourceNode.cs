@@ -10,6 +10,9 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
 
     private ItemObject[] itemDrops;
 
+    [SerializeField] private ToolType[] requiredTools;
+    [SerializeField] private int[] requiredToolLevels;
+
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
@@ -28,6 +31,44 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
         {
             BreakNode();
         }
+    }
+    public bool CanBeDamagedBy(Item tool)
+    {
+        if (tool == null)
+        {
+            foreach (ToolType t in requiredTools)
+            {
+                if (t == ToolType.Hand) return true;
+            }
+            return false;
+        }
+        bool hasTool = false;
+        bool hasLevel = false;
+        foreach (ToolType t in requiredTools)
+        {
+            if (tool.toolType == t)
+            {
+                hasTool = true;
+                break;
+            }
+        }
+        foreach (int level in requiredToolLevels)
+        {
+            if (tool.toolLevel >= level)
+            {
+                hasLevel = true;
+                break;
+            }
+        }
+        if (hasTool == true && hasLevel == true) return true;
+        return false;
+    }
+    public bool TryHit(Item tool)
+    {
+        if (!CanBeDamagedBy(tool)) return false;
+        if (tool == null) TakeDamage(1);
+        else TakeDamage(tool.resourceDamage);
+        return true;
     }
 
     public void BreakNode()

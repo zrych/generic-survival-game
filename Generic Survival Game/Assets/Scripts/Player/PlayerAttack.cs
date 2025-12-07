@@ -12,9 +12,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.5f;
 
     public Item heldTool;
-    public Item heldWeapon;
     public bool isHoldingTool = false;
-    private bool isAttacking;
+    private float nextAttackTime;
 
     public static PlayerAttack Instance { get; private set; }
 
@@ -32,7 +31,39 @@ public class PlayerAttack : MonoBehaviour
 
     private void ToolIdleAnimation(bool toggle)
     {
-        armAnim.SetBool("IsHoldingAxeWood", toggle);
+        if (heldTool != null)
+        {
+            if (heldTool.itemName == "Wooden Axe")
+            {
+                armAnim.SetBool("IsHoldingAxeWood", toggle);
+            } else if (heldTool.itemName == "Wooden Pickaxe")
+            {
+                armAnim.SetBool("IsHoldingPickWood", toggle);
+            } else if (heldTool.itemName == "Wooden Sword")
+            {
+                armAnim.SetBool("IsHoldingSwordWood", toggle);
+            }
+            else if (heldTool.itemName == "Stone Axe")
+            {
+                armAnim.SetBool("IsHoldingAxeStone", toggle);
+            }
+            else if (heldTool.itemName == "Stone Pickaxe")
+            {
+                armAnim.SetBool("IsHoldingPickStone", toggle);
+            }
+            else if (heldTool.itemName == "Stone Sword")
+            {
+                armAnim.SetBool("IsHoldingSwordStone", toggle);
+            }
+        } else
+        {
+            armAnim.SetBool("IsHoldingAxeWood", toggle);
+            armAnim.SetBool("IsHoldingPickWood", toggle);
+            armAnim.SetBool("IsHoldingSwordWood", toggle);
+            armAnim.SetBool("IsHoldingAxeStone", toggle);
+            armAnim.SetBool("IsHoldingPickStone", toggle);
+            armAnim.SetBool("IsHoldingSwordStone", toggle);
+        }
     }
 
     void Update()
@@ -52,29 +83,45 @@ public class PlayerAttack : MonoBehaviour
 
         ToolIdleAnimation(isHoldingTool);
 
-        if (Input.GetMouseButtonDown(0) && cursorManager.isUiOpen == false)
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime && cursorManager.isUiOpen == false)
         {
+            nextAttackTime = Time.time + attackCooldown;
             if (heldTool != null)
             {
                 if (heldTool.itemName == "Wooden Axe")
                 {
                     armAnim.SetTrigger("AttackAxeWood");
                     Attack(heldTool.resourceDamage, true);
-                    Invoke(nameof(ResetAttack), attackCooldown);
+                } else if (heldTool.itemName == "Wooden Pickaxe")
+                {
+                    armAnim.SetTrigger("AttackPickWood");
+                    Attack(heldTool.resourceDamage, true);
+                } else if (heldTool.itemName == "Wooden Sword")
+                {
+                    armAnim.SetTrigger("AttackSwordWood");
+                    Attack(heldTool.enemyDamage, true);
+                } else if (heldTool.itemName == "Stone Axe")
+                {
+                    armAnim.SetTrigger("AttackAxeStone");
+                    Attack(heldTool.enemyDamage, true);
+                }
+                else if (heldTool.itemName == "Stone Pickaxe")
+                {
+                    armAnim.SetTrigger("AttackPickStone");
+                    Attack(heldTool.enemyDamage, true);
+                }
+                else if (heldTool.itemName == "Stone Sword")
+                {
+                    armAnim.SetTrigger("AttackSwordStone");
+                    Attack(heldTool.enemyDamage, true);
                 }
             }
             else
             {
                 armAnim.SetTrigger("Attack");
                 Attack(baseDamage, false);
-                Invoke(nameof(ResetAttack), attackCooldown);
             }
         }
-    }
-
-    private void ResetAttack()
-    {
-        isAttacking = false;
     }
 
     void Attack(float damage, bool isTool)
@@ -98,20 +145,29 @@ public class PlayerAttack : MonoBehaviour
             if (angle <= 22.5f) // half of 45 degrees
             {
                 IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
-                Debug.Log(damageable);
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damage);
-                    Chicken chicken;
-                    Boar boar;
-                    if (chicken = hitCollider.GetComponent<Chicken>())
-                        chicken.OnHit(transform.position);
-                    if (boar = hitCollider.GetComponent<Boar>())
-                        boar.OnHit(transform.position);
+                    if (damageable.TryHit(heldTool))
+                    {
+                        Chicken chicken;
+                        Boar boar;
+                        if (chicken = hitCollider.GetComponent<Chicken>())
+                            chicken.OnHit(transform.position);
+                        if (boar = hitCollider.GetComponent<Boar>())
+                            boar.OnHit(transform.position);
+                    }
                 } else
                 {
                     damageable = hitCollider.GetComponent<IDamageable>();
-                    damageable.TakeDamage(damage);
+                    if (damageable.TryHit(heldTool))
+                    {
+                        Chicken chicken;
+                        Boar boar;
+                        if (chicken = hitCollider.GetComponent<Chicken>())
+                            chicken.OnHit(transform.position);
+                        if (boar = hitCollider.GetComponent<Boar>())
+                            boar.OnHit(transform.position);
+                    }
                 }
             }
         }

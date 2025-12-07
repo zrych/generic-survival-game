@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28de10d8ea1e6f049a7b977ca1b2c6f2, type: 3}
-  m_Name: WoodSword
+  m_Name: StonePickaxe
   m_EditorClassIdentifier: 
-  itemId: 010
-  itemName: Wooden Sword
-  itemIcon: {fileID: -5811434242665007777, guid: 5a6619414249347479bca37db2743539, type: 3}
-  itemDescription: A simple wooden sword. Offers basic protection and is useful against
-    weak foes.
-  isTool: 0
-  resourceDamage: 0
-  enemyDamage: 1
-  durability: 60
+  itemId: 013
+  itemName: Stone Pickaxe
+  itemIcon: {fileID: 301126127799019896, guid: b9651b3c9f74cc24f8ed6c5fae69beda, type: 3}
+  itemDescription: A reliable pickaxe with a rough-cut stone head. Capable of breaking
+    harder materials.
+  isTool: 1
+  toolType: 3
+  toolLevel: 2
+  resourceDamage: 1.6
+  enemyDamage: 0.7
+  durability: 45
   isConsumable: 0
   hpRestore: 0
   hungerRestore: 0

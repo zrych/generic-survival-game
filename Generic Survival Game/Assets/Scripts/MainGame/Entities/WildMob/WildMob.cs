@@ -14,6 +14,8 @@ public class WildMob : MonoBehaviour, IDamageable
 
     private ItemObject[] itemDrops;
 
+    [SerializeField] private ToolType[] requiredTools;
+    [SerializeField] private int[] requiredToolLevels;
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
@@ -51,5 +53,34 @@ public class WildMob : MonoBehaviour, IDamageable
             Instantiate(itemYields[i], (Vector2)transform.position + scatterOffset, Quaternion.identity);
         }
         Destroy(gameObject);
+    }
+
+    public bool TryHit(Item tool)
+    {
+        if (!CanBeDamagedBy(tool)) return false;
+        if (tool == null) TakeDamage(1);
+        else TakeDamage(tool.enemyDamage);
+        return true;
+    }
+
+    public bool CanBeDamagedBy(Item tool)
+    {
+        if (tool == null)
+        {
+            foreach (ToolType t in requiredTools)
+            {
+                if (t == ToolType.Hand) return true;
+            }
+            return false;
+        }
+        foreach (ToolType t in requiredTools)
+        {
+            if (tool.toolType == t) return true;
+        }
+        foreach (int level in requiredToolLevels)
+        {
+            if (tool.toolLevel >= level) return true;
+        }
+        return false;
     }
 }

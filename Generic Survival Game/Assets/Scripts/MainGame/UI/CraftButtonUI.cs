@@ -98,7 +98,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasPlanks == true && hasSticks == true)
         {
-            planksSlot.DeductItem(3);
+            planksSlot.DeductItem(4);
             sticksSlot.DeductItem(2);
             inventory.AddItem(woodAxe, 1);
         }
@@ -242,5 +242,209 @@ public class CraftButtonUI : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void CraftStoneAxe()
+    {
+        InventoryUIManager inventory = InventoryUIManager.Instance;
+        ItemSlotManager cobbledSlot = null;
+        ItemSlotManager sticksSlot = null;
+        bool hasCobble = false;
+        bool hasSticks = false;
+
+        Item stoneAxe = null;
+
+        for (int i = 0; i < itemsToGive.Length; i++)
+        {
+            if (itemsToGive[i].itemId == "012")
+            {
+                stoneAxe = itemsToGive[i];
+                break;
+            }
+        }
+
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "011")
+            {
+                cobbledSlot = inventory.itemSlot[i];
+                int remaining = cobbledSlot.quantity - 4;
+                if (remaining >= 0)
+                {
+                    hasCobble = true;
+                    break;
+                }
+                else
+                {
+                    hasCobble = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "003")
+            {
+                sticksSlot = inventory.itemSlot[i];
+                int remaining = sticksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasSticks = true;
+                    break;
+                }
+                else
+                {
+                    hasSticks = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasCobble == true && hasSticks == true)
+        {
+            cobbledSlot.DeductItem(4);
+            sticksSlot.DeductItem(2);
+            inventory.AddItem(stoneAxe, 1);
+        }
+        else
+        {
+            return;
+        }
+    }
+    public void CraftStonePickaxe()
+    {
+        InventoryUIManager inventory = InventoryUIManager.Instance;
+        ItemSlotManager cobbledSlot = null;
+        ItemSlotManager sticksSlot = null;
+        bool hasCobble = false;
+        bool hasSticks = false;
+
+        Item stonePickaxe = null;
+
+        for (int i = 0; i < itemsToGive.Length; i++)
+        {
+            if (itemsToGive[i].itemId == "013")
+            {
+                stonePickaxe = itemsToGive[i];
+                break;
+            }
+        }
+
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "011")
+            {
+                cobbledSlot = inventory.itemSlot[i];
+                int remaining = cobbledSlot.quantity - 3;
+                if (remaining >= 0)
+                {
+                    hasCobble = true;
+                    break;
+                }
+                else
+                {
+                    hasCobble = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "003")
+            {
+                sticksSlot = inventory.itemSlot[i];
+                int remaining = sticksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasSticks = true;
+                    break;
+                }
+                else
+                {
+                    hasSticks = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasCobble == true && hasSticks == true)
+        {
+            cobbledSlot.DeductItem(3);
+            sticksSlot.DeductItem(2);
+            inventory.AddItem(stonePickaxe, 1);
+        }
+        else
+        {
+            return;
+        }
+
+    }
+    public void CraftStoneSword()
+    {
+        InventoryUIManager inventory = InventoryUIManager.Instance;
+        ItemSlotManager cobbledSlot = null;
+        ItemSlotManager sticksSlot = null;
+        bool hasCobble = false;
+        bool hasSticks = false;
+
+        Item stoneSword = null;
+
+        for (int i = 0; i < itemsToGive.Length; i++)
+        {
+            if (itemsToGive[i].itemId == "014")
+            {
+                stoneSword = itemsToGive[i];
+                break;
+            }
+        }
+
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "011")
+            {
+                cobbledSlot = inventory.itemSlot[i];
+                int remaining = cobbledSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasCobble = true;
+                    break;
+                }
+                else
+                {
+                    hasCobble = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.itemSlot.Length; i++)
+        {
+            if (inventory.itemSlot[i].item != null && inventory.itemSlot[i].item.itemId == "003")
+            {
+                sticksSlot = inventory.itemSlot[i];
+                int remaining = sticksSlot.quantity - 2;
+                if (remaining >= 0)
+                {
+                    hasSticks = true;
+                    break;
+                }
+                else
+                {
+                    hasSticks = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasCobble == true && hasSticks == true)
+        {
+            cobbledSlot.DeductItem(2);
+            sticksSlot.DeductItem(2);
+            inventory.AddItem(stoneSword, 1);
+        }
+        else
+        {
+            return;
+        }
+
     }
 }

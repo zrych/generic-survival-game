@@ -12,6 +12,10 @@ public class Item : ScriptableObject
 
     [Header("Tool Info")]
     public bool isTool;
+
+    public ToolType toolType;
+    public int toolLevel; //0 - hand, 1 - wood, 2 - stone, 3 - iron
+
     public float resourceDamage;
     public float enemyDamage;
     public int durability;
@@ -20,4 +24,13 @@ public class Item : ScriptableObject
     public bool isConsumable;
     public float hpRestore;
     public float hungerRestore;
+}
+
+public enum ToolType
+{
+    None,
+    Hand,
+    Axe,
+    Pickaxe,
+    Sword
 }

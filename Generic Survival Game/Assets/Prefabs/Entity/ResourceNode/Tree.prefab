@@ -52,6 +52,8 @@ MonoBehaviour:
   - {fileID: 5059071322483155982, guid: 075d1e494350fe94798caede3ae55dc1, type: 3}
   minYield: 0100000001000000
   maxYield: 0300000002000000
+  requiredTools: 0100000002000000
+  requiredToolLevels: 00000000010000000200000003000000
 --- !u!1 &7640799972360589487
 GameObject:
   m_ObjectHideFlags: 0
