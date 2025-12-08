@@ -17,9 +17,14 @@ MonoBehaviour:
   itemIcon: {fileID: -3822200024534056477, guid: 7352925ac362c15418facb93d12b5bef, type: 3}
   itemDescription: Fresh, uncooked chicken meat. May be unsafe to eat raw.
   isTool: 0
+  toolType: 0
+  toolLevel: 0
   resourceDamage: 0
   enemyDamage: 0
   durability: 0
   isConsumable: 1
   hpRestore: -1
   hungerRestore: 1
+  saturationRestore: 1
+  isFuel: 0
+  fuelRestore: 0

@@ -23,6 +23,7 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Button swap1Button;
     [SerializeField] private Button swap2Button;
     [SerializeField] private Button swap3Button;
+    [SerializeField] private Button consumeButton;
 
     [SerializeField] private Sprite emptySprite;
 
@@ -100,6 +101,17 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void ReplaceItem(Item item)
+    {
+        this.item = item;
+        itemName = item.itemName;
+        itemIcon = item.itemIcon;
+        itemImage.sprite = itemIcon;
+
+        itemDesc = item.itemDescription;
+        SelectSlot();
+    }
+
     public void SelectSlot()
     {
         InventoryUIManager.Instance.DeselectAllSlots();
@@ -124,6 +136,9 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
             SetSwapButtons(true);
         }
 
+        if (item != null && item.isConsumable) consumeButton.gameObject.SetActive(true);
+        if (item != null && !item.isConsumable) consumeButton.gameObject.SetActive(false);
+
         //If player selects a tool/weapon
         if (item != null && item.isTool)
         {
@@ -143,6 +158,14 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         swap1Button.gameObject.SetActive(decision);
         swap2Button.gameObject.SetActive(decision);
         swap3Button.gameObject.SetActive(decision);
+    }
+
+    public void ConsumeItem()
+    {
+        PlayerStats player = PlayerStats.Instance;
+        Debug.Log(player);
+        player.ConsumeItem(item.hungerRestore, item.hpRestore, item.saturationRestore);
+        DeductItem(1);
     }
 
     public void EmptySlot()

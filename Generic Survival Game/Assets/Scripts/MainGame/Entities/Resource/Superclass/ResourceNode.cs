@@ -7,20 +7,21 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
     [SerializeField] private GameObject[] itemYields; //item prefab goes here
     [SerializeField] private int[] minYield;
     [SerializeField] private int[] maxYield;
-    private float currentHP;
+    private float currentHp;
 
     private ItemObject[] itemDrops;
 
     [SerializeField] private ToolType[] requiredTools;
     [SerializeField] private int[] requiredToolLevels;
 
-
+    [SerializeField] private EnemyHPBar hpBar;
 
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
 
-        currentHP = hp;
+        currentHp = hp;
+        hpBar.SetHealth(currentHp, hp);
 
         for (int i = 0; i < itemYields.Length; i++)
         {
@@ -33,8 +34,9 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         Debug.Log($"-{amount} hp!");
-        currentHP -= amount;
-        if (currentHP <= 0)
+        currentHp -= amount;
+        hpBar.SetHealth(currentHp, hp);
+        if (currentHp <= 0)
         {
             BreakNode();
         }

@@ -16,3 +16,15 @@ MonoBehaviour:
   itemName: Stick
   itemIcon: {fileID: -868955055948381572, guid: e72782b749b9ac046ae9ae0cdf92a6ad, type: 3}
   itemDescription: A simple stick. It could come in handy.
+  isTool: 0
+  toolType: 0
+  toolLevel: 0
+  resourceDamage: 0
+  enemyDamage: 0
+  durability: 0
+  isConsumable: 0
+  hpRestore: 0
+  hungerRestore: 0
+  saturationRestore: 0
+  isFuel: 1
+  fuelRestore: 0.2

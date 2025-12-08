@@ -18,9 +18,14 @@ MonoBehaviour:
   itemDescription: A big chunk of uncooked ham. Must be cooked properly to avoid
     illness.
   isTool: 0
+  toolType: 0
+  toolLevel: 0
   resourceDamage: 0
   enemyDamage: 0
   durability: 0
   isConsumable: 1
   hpRestore: -1
   hungerRestore: 2
+  saturationRestore: 2
+  isFuel: 0
+  fuelRestore: 0
