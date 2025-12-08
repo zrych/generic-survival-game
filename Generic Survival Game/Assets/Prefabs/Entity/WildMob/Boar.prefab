@@ -134,6 +134,7 @@ MonoBehaviour:
   maxYield: 01000000
   requiredTools: 01000000040000000200000003000000
   requiredToolLevels: 00000000010000000200000003000000
+  healthBar: {fileID: 828592887665987971, guid: 1f20acee7d699dd4e931ab874bf36816, type: 3}
   patrolRadius: 3
   minIdleTime: 2
   maxIdleTime: 5

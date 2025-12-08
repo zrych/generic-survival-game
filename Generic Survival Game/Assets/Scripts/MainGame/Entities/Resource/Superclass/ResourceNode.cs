@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ResourceNode : MonoBehaviour, IDamageable
 {
@@ -13,15 +14,21 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
     [SerializeField] private ToolType[] requiredTools;
     [SerializeField] private int[] requiredToolLevels;
 
+
+
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
+
         currentHP = hp;
+
         for (int i = 0; i < itemYields.Length; i++)
         {
             itemDrops[i] = itemYields[i].GetComponent<ItemObject>();
         }
     }
+
+
 
     public void TakeDamage(float amount)
     {

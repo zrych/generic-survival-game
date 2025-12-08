@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WildMob : MonoBehaviour, IDamageable
 {
@@ -10,29 +11,36 @@ public class WildMob : MonoBehaviour, IDamageable
     [SerializeField] protected GameObject[] itemYields; //item prefab goes here
     [SerializeField] protected int[] minYield;
     [SerializeField] protected int[] maxYield;
-    private float currentHP;
+    private float currentHp;
 
     private ItemObject[] itemDrops;
 
     [SerializeField] private ToolType[] requiredTools;
     [SerializeField] private int[] requiredToolLevels;
+
+    [SerializeField] private EnemyHPBar hpBar;
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
-        currentHP = maxHp;
+
+        currentHp = maxHp;
+        hpBar.SetHealth(currentHp, maxHp);
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         for (int i = 0; i < itemYields.Length; i++)
         {
             itemDrops[i] = itemYields[i].GetComponent<ItemObject>();
         }
+
     }
 
     public void TakeDamage(float amount)
     {
         Debug.Log($"-{amount} hp!");
-        currentHP -= amount;
-        if (currentHP <= 0)
+        currentHp -= amount;
+        hpBar.SetHealth(currentHp, maxHp);
+        if (currentHp <= 0)
         {
             KillSelf();
         }
