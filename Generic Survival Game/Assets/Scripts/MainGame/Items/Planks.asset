@@ -16,3 +16,14 @@ MonoBehaviour:
   itemName: Planks
   itemIcon: {fileID: 2499324461920419429, guid: 3d80cfcb19a9fd34b8528761eccae853, type: 3}
   itemDescription: Crafted from logs.
+  isTool: 0
+  toolType: 0
+  toolLevel: 0
+  resourceDamage: 0
+  enemyDamage: 0
+  durability: 0
+  isConsumable: 0
+  hpRestore: 0
+  hungerRestore: 0
+  isFuel: 1
+  fuelRestore: 0.5

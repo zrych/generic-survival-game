@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28de10d8ea1e6f049a7b977ca1b2c6f2, type: 3}
-  m_Name: Log
+  m_Name: CoalOre
   m_EditorClassIdentifier: 
-  itemId: 001
-  itemName: Log
-  itemIcon: {fileID: -2961369783591286831, guid: e203606f916f8424a81f26a878d9ea26, type: 3}
-  itemDescription: The basic building block.
+  itemId: 015
+  itemName: Coal Ore
+  itemIcon: {fileID: 6498842619786031663, guid: c0c1dc4111da40e44b83983c77ef40f6, type: 3}
+  itemDescription: A chunk of ore rich with coal. Burns well and is commonly used
+    as fuel.
   isTool: 0
   toolType: 0
   toolLevel: 0
@@ -25,5 +26,6 @@ MonoBehaviour:
   isConsumable: 0
   hpRestore: 0
   hungerRestore: 0
+  saturationRestore: 0
   isFuel: 1
-  fuelRestore: 1
+  fuelRestore: 4

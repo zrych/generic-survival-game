@@ -24,6 +24,11 @@ public class Item : ScriptableObject
     public bool isConsumable;
     public float hpRestore;
     public float hungerRestore;
+    public float saturationRestore;
+
+    [Header("Fuel Info")]
+    public bool isFuel;
+    public float fuelRestore;
 }
 
 public enum ToolType

@@ -17,9 +17,14 @@ MonoBehaviour:
   itemIcon: {fileID: -697069031851822566, guid: d45548c80b2479c448bf15cf2d0eb07f, type: 3}
   itemDescription: Properly cooked ham. Savory, satisfying, and safe to eat.
   isTool: 0
+  toolType: 0
+  toolLevel: 0
   resourceDamage: 0
   enemyDamage: 0
   durability: 0
-  isConsumable: 0
+  isConsumable: 1
   hpRestore: 0
   hungerRestore: 4
+  saturationRestore: 4
+  isFuel: 0
+  fuelRestore: 0
