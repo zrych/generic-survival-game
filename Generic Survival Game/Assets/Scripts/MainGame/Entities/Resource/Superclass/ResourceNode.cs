@@ -16,6 +16,7 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
 
     [SerializeField] private EnemyHPBar hpBar;
 
+
     protected virtual void Start()
     {
         itemDrops = new ItemObject[itemYields.Length];
@@ -94,6 +95,17 @@ public abstract class ResourceNode : MonoBehaviour, IDamageable
             );
             Instantiate(itemYields[i], (Vector2)transform.position + scatterOffset, Quaternion.identity);
         }
+        OnDestroyed();
+    }
+
+    private void OnDestroyed()
+    {
+        ResourceNodeTracker tracker = GetComponent<ResourceNodeTracker>();
+        if (tracker != null && tracker.zone != null)
+        {
+            tracker.zone.RemoveNode(gameObject);
+        }
+        else Debug.Log("Tracker and zone is null!");
         Destroy(gameObject);
     }
 }
