@@ -28,18 +28,13 @@ public class PlayerMovement : MonoBehaviour
         float currentSpeed = IsSprinting ? sprintSpeed : walkSpeed;
 
         // apply movement
-        rb.linearVelocity = new Vector2(speedX * currentSpeed, speedY * currentSpeed);
+        Vector2 moveInput = new Vector2(speedX, speedY).normalized;
+        rb.linearVelocity = moveInput * currentSpeed;
 
         // send movement values to animator
         anim.SetFloat("MoveX", speedX);
         anim.SetFloat("MoveY", speedY);
         anim.SetFloat("Speed", rb.linearVelocity.sqrMagnitude);
         anim.SetBool("IsSprinting", IsSprinting);
-
-        // flip sprite for left movement (if you only have right-facing art)
-        //if (speedX < 0)
-        //    sr.flipX = true;
-        //else if (speedX > 0)
-        //    sr.flipX = false;
     }
 }

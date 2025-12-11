@@ -1,10 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public class ResourceSpawnOption
+{
+    public GameObject prefab;
+    [Range(1, 100)]
+    public int weight = 10;   // Higher = more common
+}
+
 public class ResourceSpawnZone : MonoBehaviour
 {
+
+    [SerializeField] private Transform worldSpawnPoint;
+
+    // Tier radii
+    [SerializeField] private float innerTierRadius = 20f;
+    [SerializeField] private float midTierRadius = 40f;
+
+    // Tier prefabs
+    [SerializeField] private GameObject[] innerTierPrefabs;  // e.g., trees + boulders
+    [SerializeField] private GameObject[] midTierPrefabs;    // e.g., coal
+    [SerializeField] private GameObject[] outerTierPrefabs;  // e.g., iron
+
     [Header("Spawning")]
-    [SerializeField] private GameObject resourceNode;
+    [SerializeField] private ResourceSpawnOption[] resourceOptions;
     [SerializeField] private Vector2 zoneSize = new Vector2(10f, 10f);
     [SerializeField] private int maxCount = 10;
 
@@ -45,6 +66,45 @@ public class ResourceSpawnZone : MonoBehaviour
         HandleRespawnQueue();
     }
 
+    private GameObject GetTieredPrefab(Vector2 spawnPos)
+    {
+        float dist = Vector2.Distance(worldSpawnPoint.position, spawnPos);
+
+        if (dist <= innerTierRadius)
+        {
+            return innerTierPrefabs[Random.Range(0, innerTierPrefabs.Length)];
+        }
+        else if (dist <= midTierRadius)
+        {
+            return midTierPrefabs[Random.Range(0, midTierPrefabs.Length)];
+        }
+        else
+        {
+            return outerTierPrefabs[Random.Range(0, outerTierPrefabs.Length)];
+        }
+    }
+
+    private GameObject GetRandomPrefab()
+    {
+        int totalWeight = 0;
+
+        foreach (var option in resourceOptions)
+            totalWeight += option.weight;
+
+        int randomValue = Random.Range(0, totalWeight);
+
+        int current = 0;
+
+        foreach (var option in resourceOptions)
+        {
+            current += option.weight;
+            if (randomValue < current)
+                return option.prefab;
+        }
+
+        return resourceOptions[0].prefab; // fallback
+    }
+
     private void HandleRespawnQueue()
     {
         if (respawnQueue.Count == 0) return;
@@ -76,7 +136,9 @@ public class ResourceSpawnZone : MonoBehaviour
 
             if (Physics2D.OverlapCircle(spawnPos, minDistanceBetweenNodes) == null)
             {
-                GameObject node = Instantiate(resourceNode, spawnPos, Quaternion.identity);
+                //GameObject prefab = GetTieredPrefab(spawnPos); //By Tier Zones
+                GameObject prefab = GetRandomPrefab(); //randomized
+                GameObject node = Instantiate(prefab, spawnPos, Quaternion.identity);
                 activeNodes.Add(node);
 
                 // Link the node back to this zone

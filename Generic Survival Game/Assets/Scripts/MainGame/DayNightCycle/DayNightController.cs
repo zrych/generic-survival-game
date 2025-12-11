@@ -36,6 +36,7 @@ public class DayNightController : MonoBehaviour
         currentState = TimeState.Night;
         timer = 0f;
         SetAllLights(true);
+        BeginNight();
     }
     void CycleToDay()
     {
@@ -43,7 +44,8 @@ public class DayNightController : MonoBehaviour
         timer = 0f;
         dayCount++;
         dayText.text = $"Day {dayCount}";
-
+        SetAllLights(false);
+        BeginDay();
     }
     void UpdateLighting()
     {
@@ -65,5 +67,15 @@ public class DayNightController : MonoBehaviour
     private void SetAllLights(bool isOn)
     {
         foreach (Light2D light in sceneLights) { light.enabled = isOn; }
+    }
+
+    private void BeginNight()
+    {
+        MonsterSpawnManager.Instance.NightStarted();
+    }
+
+    private void BeginDay()
+    {
+        MonsterSpawnManager.Instance.DayStarted();
     }
 }

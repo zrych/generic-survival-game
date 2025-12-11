@@ -8,6 +8,10 @@ public class Campfire : MonoBehaviour
     [SerializeField] private GameObject litCampfire;
     private bool isWithinRange = false;
 
+    public float fireRadius = 3f;
+
+    public static Campfire Instance;
+
     [Header("Fuel Settings")]
     public float maxFuel = 40f;
     public float currentFuel;
@@ -15,6 +19,11 @@ public class Campfire : MonoBehaviour
 
     [Header("Cooked Food to Give")]
     [SerializeField] private Item[] foods;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
@@ -119,5 +128,11 @@ public class Campfire : MonoBehaviour
     {
         fkey.SetActive(false);
         isWithinRange = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, fireRadius);
     }
 }
