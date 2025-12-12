@@ -36,10 +36,12 @@ public class PlayerAttack : MonoBehaviour
             if (heldTool.itemName == "Wooden Axe")
             {
                 armAnim.SetBool("IsHoldingAxeWood", toggle);
-            } else if (heldTool.itemName == "Wooden Pickaxe")
+            }
+            else if (heldTool.itemName == "Wooden Pickaxe")
             {
                 armAnim.SetBool("IsHoldingPickWood", toggle);
-            } else if (heldTool.itemName == "Wooden Sword")
+            }
+            else if (heldTool.itemName == "Wooden Sword")
             {
                 armAnim.SetBool("IsHoldingSwordWood", toggle);
             }
@@ -55,7 +57,8 @@ public class PlayerAttack : MonoBehaviour
             {
                 armAnim.SetBool("IsHoldingSwordStone", toggle);
             }
-        } else
+        }
+        else
         {
             armAnim.SetBool("IsHoldingAxeWood", toggle);
             armAnim.SetBool("IsHoldingPickWood", toggle);
@@ -92,15 +95,18 @@ public class PlayerAttack : MonoBehaviour
                 {
                     armAnim.SetTrigger("AttackAxeWood");
                     Attack(heldTool.resourceDamage, true);
-                } else if (heldTool.itemName == "Wooden Pickaxe")
+                }
+                else if (heldTool.itemName == "Wooden Pickaxe")
                 {
                     armAnim.SetTrigger("AttackPickWood");
                     Attack(heldTool.resourceDamage, true);
-                } else if (heldTool.itemName == "Wooden Sword")
+                }
+                else if (heldTool.itemName == "Wooden Sword")
                 {
                     armAnim.SetTrigger("AttackSwordWood");
                     Attack(heldTool.enemyDamage, true);
-                } else if (heldTool.itemName == "Stone Axe")
+                }
+                else if (heldTool.itemName == "Stone Axe")
                 {
                     armAnim.SetTrigger("AttackAxeStone");
                     Attack(heldTool.enemyDamage, true);
@@ -156,7 +162,8 @@ public class PlayerAttack : MonoBehaviour
                         if (boar = hitCollider.GetComponent<Boar>())
                             boar.OnHit(transform.position);
                     }
-                } else
+                }
+                else
                 {
                     damageable = hitCollider.GetComponent<IDamageable>();
                     if (damageable.TryHit(heldTool))

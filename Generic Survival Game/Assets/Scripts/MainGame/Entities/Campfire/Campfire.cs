@@ -7,6 +7,8 @@ public class Campfire : MonoBehaviour
     [SerializeField] private GameObject unlitCampfire;
     [SerializeField] private GameObject litCampfire;
     private bool isWithinRange = false;
+    public bool isLit;
+    [SerializeField] private MonsterSpawnZone waveSpawnZone;
 
     public float fireRadius = 3f;
 
@@ -29,6 +31,7 @@ public class Campfire : MonoBehaviour
     {
         currentFuel = maxFuel;
         fuelBar = GetComponentInChildren<CampfireFuelBar>();
+        isLit = true;
         UpdateUI();
     }
 
@@ -36,6 +39,7 @@ public class Campfire : MonoBehaviour
     {
         if (currentFuel > 0)
         {
+            waveSpawnZone.gameObject.SetActive(false);
             LitCampfire(true);
 
             currentFuel -= burnRate * Time.deltaTime;
@@ -44,6 +48,13 @@ public class Campfire : MonoBehaviour
             UpdateUI();
         } else
         {
+            MonsterSpawnManager spawnManager = MonsterSpawnManager.Instance;
+            waveSpawnZone.gameObject.SetActive(true);
+            DayNightController daynightController = DayNightController.Instance;
+            if (daynightController.currentState == DayNightController.TimeState.Night)
+            {
+                spawnManager.NightStarted();
+            }
             LitCampfire(false);
         }
 
@@ -102,6 +113,7 @@ public class Campfire : MonoBehaviour
     {
         litCampfire.SetActive(b);
         unlitCampfire.SetActive(!b);
+        isLit = b;
     }
 
     private void UpdateUI()

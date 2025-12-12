@@ -517,7 +517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 1
   moveSpeed: 2
-  detectionRange: 3
+  detectionRange: 5
   attackRange: 1
   attackDamage: 1
   attackCooldown: 1

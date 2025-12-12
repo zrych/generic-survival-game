@@ -24,6 +24,7 @@ public class Zombie : Monster
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private float obstacleCheckDistance = 0.4f;
 
+    private Campfire campfire = Campfire.Instance;
     protected override void Start()
     {
         base.Start();
@@ -70,7 +71,7 @@ public class Zombie : Monster
                 break;
 
             case State.Aggro:
-                if (ZombieIsInCampfireRadius()) {
+                if (ZombieIsInCampfireRadius() && campfire.isLit) {
                     state = State.RunAway;
                 }
                 TryAttack();
@@ -156,14 +157,13 @@ public class Zombie : Monster
 
     private bool ZombieIsInCampfireRadius()
     {
-        Campfire campfire = Campfire.Instance;
         float distance = Vector2.Distance(transform.position, campfire.transform.position);
         return distance <= campfire.fireRadius;
     }
 
     private bool PlayerIsInCampfireRadius()
     {
-        Campfire campfire = Campfire.Instance;
+        if (!campfire.isLit) return false;
         float distance = Vector2.Distance(player.position, campfire.transform.position);
         return distance <= campfire.fireRadius;
     }

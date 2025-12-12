@@ -4,10 +4,10 @@ using UnityEngine;
 public class MonsterSpawnZone : MonoBehaviour
 {
     [Header("Zone Settings")]
-    public Vector2 zoneSize = new Vector2(10, 10);
-    public LayerMask obstacleMask;
-    public float minDistanceBetweenMonsters = 1.5f;
-
+    [SerializeField] private Vector2 zoneSize = new Vector2(10, 10);
+    [SerializeField] private LayerMask obstacleMask;
+    [SerializeField] private float minDistanceBetweenMonsters = 1.5f;
+    [SerializeField] private float distanceFromPlayer = 3f;
     [Header("Monster Settings")]
     public GameObject zombiePrefab;
     public int maxMonsters = 5;
@@ -53,7 +53,7 @@ public class MonsterSpawnZone : MonoBehaviour
             Vector2 pos = GetRandomPointInZone();
 
             // too close to player?
-            if (Vector2.Distance(player.position, pos) < 7f)
+            if (Vector2.Distance(player.position, pos) < distanceFromPlayer)
                 continue;
 
             // no space?

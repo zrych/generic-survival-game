@@ -1,6 +1,8 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class DayNightController : MonoBehaviour
 {
@@ -14,11 +16,21 @@ public class DayNightController : MonoBehaviour
 
     public int dayCount = 1;
 
+    public static DayNightController Instance;
+
+    [SerializeField] private CanvasGroup nightOverlay;
+    [SerializeField] private float fadeSpeed = 1f;
+
     [SerializeField] private Light2D globalLight;
     [SerializeField] private Light2D[] sceneLights;
     [SerializeField] private TextMeshProUGUI dayText;
 
     private float timer;
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     private void Start()
     {
         SetAllLights(false);
@@ -49,18 +61,25 @@ public class DayNightController : MonoBehaviour
     }
     void UpdateLighting()
     {
+        globalLight.color = new Color(0.6f, 0.7f, 1f, 1f);
         float targetIntensity = currentState == TimeState.Day ? 1f : 0.05f;
         globalLight.intensity = Mathf.MoveTowards(
             globalLight.intensity,
             targetIntensity,
             Time.deltaTime * transitionSpeed
         );
+        StartCoroutine(FadeNight(true));
 
         if (Mathf.Abs(globalLight.intensity - targetIntensity) < 0.01f)
         {
             globalLight.intensity = targetIntensity;
             if (currentState == TimeState.Day)
-                 SetAllLights(false);
+            {
+                globalLight.color = Color.white;
+                SetAllLights(false);
+                StartCoroutine(FadeNight(false));
+            }
+
         }
     }
 
@@ -77,5 +96,15 @@ public class DayNightController : MonoBehaviour
     private void BeginDay()
     {
         MonsterSpawnManager.Instance.DayStarted();
+    }
+
+    private IEnumerator FadeNight(bool isNight)
+    {
+        float target = isNight ? 0.65f : 0f;
+        while (Mathf.Abs(nightOverlay.alpha - target) > 0.01f)
+        {
+            nightOverlay.alpha = Mathf.Lerp(nightOverlay.alpha, target, Time.deltaTime * fadeSpeed);
+            yield return null;
+        }
     }
 }

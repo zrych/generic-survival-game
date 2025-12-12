@@ -5,7 +5,7 @@ public class MonsterSpawnManager : MonoBehaviour
 {
     public static MonsterSpawnManager Instance;
 
-    private List<MonsterSpawnZone> zones = new List<MonsterSpawnZone>();
+    public List<MonsterSpawnZone> zones = new List<MonsterSpawnZone>();
 
     private void Awake()
     {
