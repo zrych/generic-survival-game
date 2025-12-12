@@ -114,6 +114,7 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
 
     public void SelectSlot()
     {
+
         InventoryUIManager.Instance.DeselectAllSlots();
         if (selectedShade != null)
             selectedShade.SetActive(true);

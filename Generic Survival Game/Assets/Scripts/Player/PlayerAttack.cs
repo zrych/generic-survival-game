@@ -36,29 +36,58 @@ public class PlayerAttack : MonoBehaviour
             if (heldTool.itemName == "Wooden Axe")
             {
                 armAnim.SetBool("IsHoldingAxeWood", toggle);
+                armAnim.SetBool("IsHoldingPickWood", !toggle);
+                armAnim.SetBool("IsHoldingSwordWood", !toggle);
+                armAnim.SetBool("IsHoldingAxeStone", !toggle);
+                armAnim.SetBool("IsHoldingPickStone", !toggle);
+                armAnim.SetBool("IsHoldingSwordStone", !toggle);
             }
             else if (heldTool.itemName == "Wooden Pickaxe")
             {
                 armAnim.SetBool("IsHoldingPickWood", toggle);
+                armAnim.SetBool("IsHoldingAxeWood", !toggle);
+                armAnim.SetBool("IsHoldingSwordWood", !toggle);
+                armAnim.SetBool("IsHoldingAxeStone", !toggle);
+                armAnim.SetBool("IsHoldingPickStone", !toggle);
+                armAnim.SetBool("IsHoldingSwordStone", !toggle);
             }
             else if (heldTool.itemName == "Wooden Sword")
             {
                 armAnim.SetBool("IsHoldingSwordWood", toggle);
+                armAnim.SetBool("IsHoldingAxeWood", !toggle);
+                armAnim.SetBool("IsHoldingPickWood", !toggle);
+                armAnim.SetBool("IsHoldingAxeStone", !toggle);
+                armAnim.SetBool("IsHoldingPickStone", !toggle);
+                armAnim.SetBool("IsHoldingSwordStone", !toggle);
             }
             else if (heldTool.itemName == "Stone Axe")
             {
                 armAnim.SetBool("IsHoldingAxeStone", toggle);
+                armAnim.SetBool("IsHoldingAxeWood", !toggle);
+                armAnim.SetBool("IsHoldingPickWood", !toggle);
+                armAnim.SetBool("IsHoldingSwordWood", !toggle);
+                armAnim.SetBool("IsHoldingPickStone", !toggle);
+                armAnim.SetBool("IsHoldingSwordStone", !toggle);
             }
             else if (heldTool.itemName == "Stone Pickaxe")
             {
                 armAnim.SetBool("IsHoldingPickStone", toggle);
+                armAnim.SetBool("IsHoldingAxeWood", !toggle);
+                armAnim.SetBool("IsHoldingPickWood", !toggle);
+                armAnim.SetBool("IsHoldingSwordWood", !toggle);
+                armAnim.SetBool("IsHoldingAxeStone", !toggle);
+                armAnim.SetBool("IsHoldingSwordStone", !toggle);
             }
             else if (heldTool.itemName == "Stone Sword")
             {
                 armAnim.SetBool("IsHoldingSwordStone", toggle);
+                armAnim.SetBool("IsHoldingAxeWood", !toggle);
+                armAnim.SetBool("IsHoldingPickWood", !toggle);
+                armAnim.SetBool("IsHoldingSwordWood", !toggle);
+                armAnim.SetBool("IsHoldingAxeStone", !toggle);
+                armAnim.SetBool("IsHoldingPickStone", !toggle);
             }
-        }
-        else
+        } else
         {
             armAnim.SetBool("IsHoldingAxeWood", toggle);
             armAnim.SetBool("IsHoldingPickWood", toggle);
@@ -130,6 +159,24 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void UseDurability()
+    {
+        if (!isHoldingTool) return;
+        heldTool.currentDurability -= 1;
+        Debug.Log(heldTool.currentDurability);
+        if (heldTool.currentDurability <= 0)
+        {
+            BreakTool();
+        }
+        isHoldingTool = false;
+        heldTool = null;
+    }
+
+    private void BreakTool()
+    {
+        InventoryUIManager.Instance.DeleteItem(heldTool);
+    }
+
     void Attack(float damage, bool isTool)
     {
         Vector2 playerPos = transform.position;
@@ -153,6 +200,7 @@ public class PlayerAttack : MonoBehaviour
                 IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
                 if (damageable != null)
                 {
+                    UseDurability();
                     if (damageable.TryHit(heldTool))
                     {
                         Chicken chicken;
@@ -166,6 +214,7 @@ public class PlayerAttack : MonoBehaviour
                 else
                 {
                     damageable = hitCollider.GetComponent<IDamageable>();
+                    UseDurability();
                     if (damageable.TryHit(heldTool))
                     {
                         Chicken chicken;

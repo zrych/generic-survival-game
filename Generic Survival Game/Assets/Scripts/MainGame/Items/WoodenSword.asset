@@ -22,7 +22,11 @@ MonoBehaviour:
   toolLevel: 1
   resourceDamage: 0
   enemyDamage: 1
-  durability: 60
+  maxDurability: 60
+  currentDurability: 0
   isConsumable: 0
   hpRestore: 0
   hungerRestore: 0
+  saturationRestore: 0
+  isFuel: 0
+  fuelRestore: 0

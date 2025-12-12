@@ -98,6 +98,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasPlanks == true && hasSticks == true)
         {
+            woodAxe.currentDurability = woodAxe.maxDurability;
             planksSlot.DeductItem(4);
             sticksSlot.DeductItem(2);
             inventory.AddItem(woodAxe, 1);
@@ -166,6 +167,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasPlanks == true && hasSticks == true)
         {
+            woodPickaxe.currentDurability = woodPickaxe.maxDurability;
             planksSlot.DeductItem(3);
             sticksSlot.DeductItem(2);
             inventory.AddItem(woodPickaxe, 1);
@@ -234,6 +236,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasPlanks == true && hasSticks == true)
         {
+            woodSword.currentDurability = woodSword.maxDurability;
             planksSlot.DeductItem(3);
             sticksSlot.DeductItem(2);
             inventory.AddItem(woodSword, 1);
@@ -302,6 +305,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasCobble == true && hasSticks == true)
         {
+            stoneAxe.currentDurability = stoneAxe.maxDurability;
             cobbledSlot.DeductItem(4);
             sticksSlot.DeductItem(2);
             inventory.AddItem(stoneAxe, 1);
@@ -369,6 +373,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasCobble == true && hasSticks == true)
         {
+            stonePickaxe.currentDurability = stonePickaxe.maxDurability;
             cobbledSlot.DeductItem(3);
             sticksSlot.DeductItem(2);
             inventory.AddItem(stonePickaxe, 1);
@@ -437,6 +442,7 @@ public class CraftButtonUI : MonoBehaviour
 
         if (hasCobble == true && hasSticks == true)
         {
+            stoneSword.currentDurability = stoneSword.maxDurability;
             cobbledSlot.DeductItem(2);
             sticksSlot.DeductItem(2);
             inventory.AddItem(stoneSword, 1);

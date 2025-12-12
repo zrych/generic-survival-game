@@ -35,6 +35,18 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
+    public void DeleteItem(Item item)
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].item == item)
+            {
+                itemSlot[i].EmptySlot();
+                return;
+            }
+        }
+    }
+
     public int AddItem(Item item, int quantity)
     {
         for (int i = 0; i < itemSlot.Length; i++)

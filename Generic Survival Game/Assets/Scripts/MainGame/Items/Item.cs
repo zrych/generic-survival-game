@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
@@ -18,7 +19,8 @@ public class Item : ScriptableObject
 
     public float resourceDamage;
     public float enemyDamage;
-    public int durability;
+    public int maxDurability;
+    public int currentDurability = 0;
 
     [Header("Consumable Info")]
     public bool isConsumable;
@@ -30,6 +32,7 @@ public class Item : ScriptableObject
     public bool isFuel;
     public float fuelRestore;
 }
+
 
 public enum ToolType
 {
