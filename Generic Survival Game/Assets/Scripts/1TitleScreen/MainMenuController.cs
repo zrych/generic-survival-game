@@ -22,7 +22,7 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayButtonClicked()
     {
-        SceneManager.LoadScene("TWorldSelect");
+        SceneManager.LoadScene("World");
     }
 
     public void Quit()
