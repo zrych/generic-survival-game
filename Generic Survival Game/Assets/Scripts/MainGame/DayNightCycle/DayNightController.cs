@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DayNightController : MonoBehaviour
 {
-    public enum TimeState { Day, Night }
+    public enum TimeState { Day, Night, BloodMoon }
     public TimeState currentState = TimeState.Day;
 
     public float dayDuration = 120f;
@@ -19,11 +19,17 @@ public class DayNightController : MonoBehaviour
     public static DayNightController Instance;
 
     [SerializeField] private CanvasGroup nightOverlay;
+    [SerializeField] private Image overlayColor;
     [SerializeField] private float fadeSpeed = 1f;
 
     [SerializeField] private Light2D globalLight;
     [SerializeField] private Light2D[] sceneLights;
     [SerializeField] private TextMeshProUGUI dayText;
+
+    [SerializeField] GameObject waveSpawnZone;
+
+    private Color ogNightColor;
+    private Color bloodMoonColor = new Color(0.6f, 0.1f, 0.1f, 0.4f);
 
     private float timer;
     private void Awake()
@@ -34,6 +40,8 @@ public class DayNightController : MonoBehaviour
     private void Start()
     {
         SetAllLights(false);
+        Color ogColor = overlayColor.color;
+
     }
     private void Update()
     {
@@ -45,6 +53,11 @@ public class DayNightController : MonoBehaviour
 
     void CycleToNight()
     {
+        if (dayCount % 7 == 0)
+        {
+            currentState = TimeState.BloodMoon;
+            BeginBloodMoon();
+        }
         currentState = TimeState.Night;
         timer = 0f;
         SetAllLights(true);
@@ -52,6 +65,7 @@ public class DayNightController : MonoBehaviour
     }
     void CycleToDay()
     {
+        overlayColor.color = ogNightColor;
         currentState = TimeState.Day;
         timer = 0f;
         dayCount++;
@@ -59,6 +73,15 @@ public class DayNightController : MonoBehaviour
         SetAllLights(false);
         BeginDay();
     }
+
+    void BeginBloodMoon()
+    {
+        overlayColor.color = bloodMoonColor;
+        MonsterSpawnManager spawnManager = MonsterSpawnManager.Instance;
+        waveSpawnZone.gameObject.SetActive(true);
+        spawnManager.NightStarted();
+    }
+
     void UpdateLighting()
     {
         globalLight.color = new Color(0.6f, 0.7f, 1f, 1f);

@@ -163,7 +163,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!isHoldingTool) return;
         heldTool.currentDurability -= 1;
-        Debug.Log(heldTool.currentDurability);
         if (heldTool.currentDurability <= 0)
         {
             BreakTool();

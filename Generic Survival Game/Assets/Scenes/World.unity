@@ -3656,17 +3656,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  dayDuration: 5
+  dayDuration: 120
   nightDuration: 120
   transitionSpeed: 1
-  dayCount: 1
+  dayCount: 7
   nightOverlay: {fileID: 152859803}
+  overlayColor: {fileID: 152859804}
   fadeSpeed: 1
   globalLight: {fileID: 794881471}
   sceneLights:
   - {fileID: 815765419}
   - {fileID: 1386644036}
   dayText: {fileID: 1530340406}
+  waveSpawnZone: {fileID: 2058177231}
 --- !u!114 &542699411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46968,10 +46970,10 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  minDistanceBetweenMonsters: 1.5
+  minDistanceBetweenMonsters: 1
   distanceFromPlayer: 0
   zombiePrefab: {fileID: 8937611692652966431, guid: a15a810292bd149489ab41f241a80475, type: 3}
-  maxMonsters: 10
+  maxMonsters: 15
   spawnInterval: 2
   activeMonsters: []
 --- !u!4 &2058177233
