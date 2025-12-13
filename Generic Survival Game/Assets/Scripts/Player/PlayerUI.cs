@@ -15,7 +15,7 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        hpBar.fillAmount = stats.currentHP / stats.maxHP;
-        hungerBar.fillAmount = stats.currentHunger / stats.maxHunger;
+        hpBar.fillAmount = stats.GetCurrentHP() / stats.GetMaxHP();
+        hungerBar.fillAmount = stats.GetCurrentHunger() / stats.GetMaxHunger();
     }
 }

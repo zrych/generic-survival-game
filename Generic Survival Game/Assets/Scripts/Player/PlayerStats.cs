@@ -3,19 +3,19 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Health")]
-    public float maxHP = 20f;
-    public float currentHP; //placeholder
+    [SerializeField] private float maxHP = 20f;
+    [SerializeField] private float currentHP;
 
     [Header("Hunger")]
-    public float maxHunger = 20f;
-    public float currentHunger; //placeholder
-    public float hungerDrainIdle = 0.066f;   // walking/standing
-    public float hungerDrainSprint = 0.1f;  // sprinting rate
-    public float starvationDamage = 0.5f;   // HP lost per second when hunger = 0
+    [SerializeField] private float maxHunger = 20f;
+    [SerializeField] private float currentHunger;
+    [SerializeField] private float hungerDrainIdle = 0.066f;   // walking/standing
+    [SerializeField] private float hungerDrainSprint = 0.1f;  // sprinting rate
+    [SerializeField] private float starvationDamage = 0.5f;   // HP lost per second when hunger = 0
 
     [Header("Saturation")]
-    public float maxSaturation = 20f;
-    public float currentSaturation;
+    [SerializeField] private float maxSaturation = 20f;
+    [SerializeField] private float currentSaturation;
 
     [Header("Regen")]
     private float regenTimer = 0f;
@@ -115,13 +115,16 @@ public class PlayerStats : MonoBehaviour
 
     private void RestoreHunger(float amount)
     {
-        currentHunger += amount;
+        float newHunger = currentHunger += amount;
+        SetCurrentHunger(newHunger);
         currentHunger = Mathf.Clamp(currentHunger, 0, maxHunger);
     }
 
     private void RestoreHP(float amount)
     {
-        currentHP += amount;
+
+        float newHP = currentHP += amount;
+        SetCurrentHP(newHP);
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
     }
 
@@ -144,5 +147,39 @@ public class PlayerStats : MonoBehaviour
             currentHP -= starvationDamage * Time.deltaTime;
             currentHP = Mathf.Clamp(currentHP, 0, maxHP);
         }
+    }
+
+    public float GetCurrentHP()
+    {
+        return currentHP;
+    }
+
+    private void SetCurrentHP(float newHp)
+    {
+        if (newHp > maxHP) return;
+        if (newHp < 0) return;
+        currentHP = newHp;
+    }
+
+    public float GetMaxHP()
+    {
+        return maxHP;
+    }
+
+    public float GetCurrentHunger()
+    {
+        return currentHunger;
+    }
+
+    private void SetCurrentHunger(float newHunger)
+    {
+        if (newHunger > maxHunger) return;
+        if (newHunger < 0) return;
+        currentHunger = newHunger;
+    }
+
+    public float GetMaxHunger()
+    {
+        return maxHunger;
     }
 }
