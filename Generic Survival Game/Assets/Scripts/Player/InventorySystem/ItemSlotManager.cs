@@ -112,6 +112,29 @@ public class ItemSlotManager : MonoBehaviour, IPointerClickHandler
         SelectSlot();
     }
 
+    public void SwapWith(ItemSlotManager other)
+    {
+        Item tempItem = other.item;
+        int tempQty = other.quantity;
+
+        other.SetItem(item, quantity);
+        SetItem(tempItem, tempQty);
+    }
+
+    private void SetItem(Item item, int quantity)
+    {
+        if (item == null || quantity <= 0)
+        {
+            EmptySlot();
+            return;
+        }
+        this.item = item;
+        this.quantity = quantity;
+        itemName = item.itemName.ToString();
+        itemIcon = item.itemIcon;
+        itemDesc = item.itemDescription.ToString();
+    }
+
     public void SelectSlot()
     {
 

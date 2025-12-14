@@ -166,9 +166,9 @@ public class PlayerAttack : MonoBehaviour
         if (heldTool.currentDurability <= 0)
         {
             BreakTool();
+            isHoldingTool = false;
+            heldTool = null;
         }
-        isHoldingTool = false;
-        heldTool = null;
     }
 
     private void BreakTool()
