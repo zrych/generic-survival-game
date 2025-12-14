@@ -5917,6 +5917,8 @@ MonoBehaviour:
   tracks:
   - trackName: MainMenu
     clip: {fileID: 8300000, guid: 7f753c603ad556e4a813de8537f89803, type: 3}
+  - trackName: MorningSounds
+    clip: {fileID: 8300000, guid: 886ed934304dcfa489057ff4bce7ebcf, type: 3}
 --- !u!1 &1817795285
 GameObject:
   m_ObjectHideFlags: 0
