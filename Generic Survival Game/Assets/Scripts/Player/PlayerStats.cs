@@ -23,6 +23,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float regenAmount = 0.5f;
 
     private PlayerMovement movement;
+
+    [SerializeField] private GameObject gameOverScreen; 
+
     public static PlayerStats Instance { get; private set; }
 
     void Start()
@@ -138,6 +141,12 @@ public class PlayerStats : MonoBehaviour
     {
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        if (currentHP <= 0)
+        {
+            Time.timeScale = 0f;
+            gameOverScreen.SetActive(true);
+            this.gameObject.SetActive(false);
+        }
     }
 
     void HandleStarvation()
