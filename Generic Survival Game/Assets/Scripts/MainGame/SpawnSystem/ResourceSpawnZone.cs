@@ -42,6 +42,8 @@ public class ResourceSpawnZone : MonoBehaviour
 
     private Transform player;
 
+    [SerializeField] private LayerMask blockingMask;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -134,7 +136,7 @@ public class ResourceSpawnZone : MonoBehaviour
 
             spawnPos = (Vector2)transform.position + new Vector2(x, y);
 
-            if (Physics2D.OverlapCircle(spawnPos, minDistanceBetweenNodes) == null)
+            if (!Physics2D.OverlapCircle(spawnPos, minDistanceBetweenNodes, blockingMask))
             {
                 //GameObject prefab = GetTieredPrefab(spawnPos); //By Tier Zones
                 GameObject prefab = GetRandomPrefab(); //randomized
