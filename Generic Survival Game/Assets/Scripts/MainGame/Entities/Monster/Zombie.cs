@@ -1,10 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class Zombie : Monster
 {
     public enum State { Idle, Patrol, Aggro, RunAway }
+
     [Header("Patrol")]
     [SerializeField] private float patrolRadius = 3f;
     [SerializeField] private float minIdleTime = 1f;
@@ -25,6 +26,14 @@ public class Zombie : Monster
     [SerializeField] private float obstacleCheckDistance = 0.4f;
 
     private Campfire campfire = Campfire.Instance;
+
+    // 🧟 Idle sounds
+    private AudioSource idleAudioSource;
+    [SerializeField] private float idleSoundIntervalMin = 6f;
+    [SerializeField] private float idleSoundIntervalMax = 10f;
+    private float nextIdleSoundTime = 0f;
+    [SerializeField] private float soundHearingDistance = 6f; // fade range
+
     protected override void Start()
     {
         base.Start();
@@ -34,23 +43,33 @@ public class Zombie : Monster
 
         spawnPoint = gameObject.transform.position;
         ChooseIdle();
+
+        // Setup idle AudioSource
+        idleAudioSource = gameObject.AddComponent<AudioSource>();
+        idleAudioSource.spatialBlend = 1f; // 3D sound
+        idleAudioSource.rolloffMode = AudioRolloffMode.Linear;
+        idleAudioSource.minDistance = 1f;
+        idleAudioSource.maxDistance = soundHearingDistance;
+        idleAudioSource.playOnAwake = false;
     }
 
     private void ChooseIdle()
     {
-        idleTimer = Random.Range(minIdleTime, maxIdleTime);
+        idleTimer = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
     }
 
     private Vector2 RandomPatrolPoint()
     {
-        return spawnPoint + Random.insideUnitCircle * patrolRadius;
+        return spawnPoint + UnityEngine.Random.insideUnitCircle * patrolRadius;
     }
 
     void Update()
     {
         UpdateAnimator();
         HandleSpriteFlip();
+
         if (IsPlayerDetected() && !PlayerIsInCampfireRadius()) state = State.Aggro;
+
         switch (state)
         {
             case State.Idle:
@@ -71,11 +90,41 @@ public class Zombie : Monster
                 break;
 
             case State.Aggro:
-                if (ZombieIsInCampfireRadius() && campfire.isLit) {
+                if (ZombieIsInCampfireRadius() && campfire.isLit)
+                {
                     state = State.RunAway;
                 }
                 TryAttack();
                 break;
+        }
+
+        // Handle idle sound logic
+        HandleIdleSound();
+    }
+
+    private void HandleIdleSound()
+    {
+        if (player == null || SoundManager.Instance == null) return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        // only play sound if near player and not already playing
+        if (Time.time >= nextIdleSoundTime && distance <= soundHearingDistance && !idleAudioSource.isPlaying)
+        {
+            AudioClip clip = SoundManager.Instance.GetClip("Zombie");
+            if (clip != null)
+            {
+                idleAudioSource.clip = clip;
+                idleAudioSource.volume = Mathf.Clamp01(1f - (distance / soundHearingDistance));
+                idleAudioSource.Play();
+                nextIdleSoundTime = Time.time + UnityEngine.Random.Range(idleSoundIntervalMin, idleSoundIntervalMax);
+            }
+        }
+
+        // update volume fade based on distance if still playing
+        if (idleAudioSource.isPlaying)
+        {
+            idleAudioSource.volume = Mathf.Clamp01(1f - (distance / soundHearingDistance));
         }
     }
 
@@ -99,7 +148,8 @@ public class Zombie : Monster
         else if (state == State.Idle)
         {
             rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.5f);
-        } else if (state == State.RunAway)
+        }
+        else if (state == State.RunAway)
         {
             StartCoroutine(MoveAway(player.transform.position, moveSpeed));
         }
@@ -187,7 +237,8 @@ public class Zombie : Monster
 
         PlayerStats hp = player.GetComponent<PlayerStats>();
         if (hp != null)
-        animator.SetTrigger("Attack");
+            animator.SetTrigger("Attack");
+
         yield return new WaitForSeconds(0.4f);
         hp.TakeDamage(attackDamage);
 
@@ -212,7 +263,6 @@ public class Zombie : Monster
     private void UpdateAnimator()
     {
         if (animator == null) return;
-
         animator.SetFloat("Speed", rb.linearVelocity.magnitude);
     }
 

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -47,12 +48,12 @@ public class Boar : WildMob
 
     private void ChooseIdle()
     {
-        idleTimer = Random.Range(minIdleTime, maxIdleTime);
+        idleTimer = UnityEngine.Random.Range(minIdleTime, maxIdleTime); // fixed
     }
 
     private Vector2 RandomPatrolPoint()
     {
-        return spawnPoint + Random.insideUnitCircle * patrolRadius;
+        return spawnPoint + UnityEngine.Random.insideUnitCircle * patrolRadius; // fixed
     }
 
     void Update()

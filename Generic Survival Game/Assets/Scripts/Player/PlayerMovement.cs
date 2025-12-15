@@ -12,11 +12,24 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsSprinting { get; private set; }
 
+    // FOOTSTEP SOUND
+    [SerializeField] private string footstepSoundName = "PlayerMovement";
+    private AudioSource footstepSource;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();      // get the Animator component
-        sr = GetComponent<SpriteRenderer>();  // get SpriteRenderer for flipping
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+
+        // Create a dedicated AudioSource for footsteps
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        footstepSource.loop = true;
+        footstepSource.playOnAwake = false;
+
+        // Assign clip from SoundManager
+        if (SoundManager.Instance != null)
+            footstepSource.clip = SoundManager.Instance.GetClipPublic(footstepSoundName);
     }
 
     void Update()
@@ -27,14 +40,26 @@ public class PlayerMovement : MonoBehaviour
         IsSprinting = Input.GetKey(KeyCode.LeftShift);
         float currentSpeed = IsSprinting ? sprintSpeed : walkSpeed;
 
-        // apply movement
+        // Apply movement
         Vector2 moveInput = new Vector2(speedX, speedY).normalized;
         rb.linearVelocity = moveInput * currentSpeed;
 
-        // send movement values to animator
+        // Send movement values to animator
         anim.SetFloat("MoveX", speedX);
         anim.SetFloat("MoveY", speedY);
         anim.SetFloat("Speed", rb.linearVelocity.sqrMagnitude);
         anim.SetBool("IsSprinting", IsSprinting);
+
+        // --- FOOTSTEP SOUND LOGIC ---
+        if (moveInput != Vector2.zero)
+        {
+            if (!footstepSource.isPlaying)
+                footstepSource.Play();
+        }
+        else
+        {
+            if (footstepSource.isPlaying)
+                footstepSource.Stop();
+        }
     }
 }

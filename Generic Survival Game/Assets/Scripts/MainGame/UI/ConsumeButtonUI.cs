@@ -10,6 +10,11 @@ public class ConsumeButtonUI : MonoBehaviour
             if (inventory.itemSlot[i].isSlotSelected)
             {
                 inventory.itemSlot[i].ConsumeItem();
+
+                // ADDED: play consume sound
+                if (SoundManager.Instance != null)
+                    SoundManager.Instance.PlaySound2D("PlayerConsume");
+
                 return;
             }
         }

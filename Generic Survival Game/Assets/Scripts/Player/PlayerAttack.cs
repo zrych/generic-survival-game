@@ -87,7 +87,8 @@ public class PlayerAttack : MonoBehaviour
                 armAnim.SetBool("IsHoldingAxeStone", !toggle);
                 armAnim.SetBool("IsHoldingPickStone", !toggle);
             }
-        } else
+        }
+        else
         {
             armAnim.SetBool("IsHoldingAxeWood", toggle);
             armAnim.SetBool("IsHoldingPickWood", toggle);
@@ -197,31 +198,36 @@ public class PlayerAttack : MonoBehaviour
             if (angle <= 22.5f) // half of 45 degrees
             {
                 IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
+                if (damageable == null)
+                {
+                    damageable = hitCollider.GetComponent<IDamageable>();
+                }
+
                 if (damageable != null)
                 {
                     UseDurability();
                     if (damageable.TryHit(heldTool))
                     {
+                        // Play hit sound for player hitting
+                        if (SoundManager.Instance != null)
+                            SoundManager.Instance.PlaySound2D("Player");
+
                         Chicken chicken;
                         Boar boar;
                         if (chicken = hitCollider.GetComponent<Chicken>())
+                        {
                             chicken.OnHit(transform.position);
+                            // Play random Chicken hit sound (2 clips)
+                            if (SoundManager.Instance != null)
+                                SoundManager.Instance.PlaySound2D("ChickenHit");
+                        }
                         if (boar = hitCollider.GetComponent<Boar>())
+                        {
                             boar.OnHit(transform.position);
-                    }
-                }
-                else
-                {
-                    damageable = hitCollider.GetComponent<IDamageable>();
-                    UseDurability();
-                    if (damageable.TryHit(heldTool))
-                    {
-                        Chicken chicken;
-                        Boar boar;
-                        if (chicken = hitCollider.GetComponent<Chicken>())
-                            chicken.OnHit(transform.position);
-                        if (boar = hitCollider.GetComponent<Boar>())
-                            boar.OnHit(transform.position);
+                            // Play Boar hit sound
+                            if (SoundManager.Instance != null)
+                                SoundManager.Instance.PlaySound2D("BoarHit");
+                        }
                     }
                 }
             }

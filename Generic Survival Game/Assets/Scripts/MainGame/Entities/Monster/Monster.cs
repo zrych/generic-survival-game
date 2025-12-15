@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
 {
@@ -19,6 +19,9 @@ public class Monster : MonoBehaviour, IDamageable
 
     [SerializeField] private EnemyHPBar hpBar;
 
+    // 🧟 AudioSource for hit/death sounds
+    private AudioSource audioSource;
+
     protected virtual void Start()
     {
         currentHp = maxHp;
@@ -26,11 +29,29 @@ public class Monster : MonoBehaviour, IDamageable
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // Setup audio source
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialBlend = 1f; // 3D sound
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 6f; // adjust as needed
+        audioSource.playOnAwake = false;
     }
 
     public void KillSelf()
     {
-        Destroy(gameObject);
+        // Play death sound before destroying
+        if (SoundManager.Instance != null)
+        {
+            AudioClip clip = SoundManager.Instance.GetClip("ZombieDead");
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+        }
+
+        Destroy(gameObject, 0.1f); // short delay to allow sound
     }
 
     public bool CanBeDamagedBy(Item tool)
@@ -56,9 +77,17 @@ public class Monster : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        Debug.Log($"-{amount} hp!");
         currentHp -= amount;
         hpBar.SetHealth(currentHp, maxHp);
+
+        // Play hit sound
+        if (SoundManager.Instance != null)
+        {
+            AudioClip hitClip = SoundManager.Instance.GetClip("ZombieHit");
+            if (hitClip != null)
+                audioSource.PlayOneShot(hitClip);
+        }
+
         if (currentHp <= 0)
         {
             KillSelf();

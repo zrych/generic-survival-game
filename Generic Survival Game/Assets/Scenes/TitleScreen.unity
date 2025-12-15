@@ -215,6 +215,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &26852898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2594,6 +2606,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &712845899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2781,6 +2805,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &762452499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2938,10 +2974,10 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055925663}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: UpdateSoundVolume
-        m_Mode: 0
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3668,6 +3704,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1115022195}
   m_CullTransparentMesh: 1
+--- !u!1 &1172088961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172088963}
+  - component: {fileID: 1172088962}
+  m_Layer: 0
+  m_Name: ButtonClick
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1172088962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172088961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9db39cb9d8973b408bb72c87aeefaea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundName: Click
+--- !u!4 &1172088963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172088961}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 439.09497, y: 217.6499, z: -1.6677706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1173234843
 GameObject:
   m_ObjectHideFlags: 0
@@ -4272,10 +4353,10 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055925663}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: UpdateMusicVolume
-        m_Mode: 0
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4459,6 +4540,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5187,6 +5280,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2055925663}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1172088962}
+        m_TargetAssemblyTypeName: ButtonSFX, Assembly-CSharp
+        m_MethodName: PlaySound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6006,6 +6111,43 @@ MonoBehaviour:
   - groupID: Click
     clips:
     - {fileID: 8300000, guid: f48181ddb474aa24d8c32769fed46936, type: 3}
+  - groupID: Player
+    clips:
+    - {fileID: 8300000, guid: cc813805933aa9a48843b86153175a25, type: 3}
+    - {fileID: 8300000, guid: 1cb7a51d968808d47a41a3010f28897b, type: 3}
+    - {fileID: 8300000, guid: 6b061794364dde3448eff6e152b76e39, type: 3}
+  - groupID: PlayerMovement
+    clips:
+    - {fileID: 8300000, guid: af0df9f4cb8f0264196d1eedc371e3ab, type: 3}
+  - groupID: PlayerConsume
+    clips:
+    - {fileID: 8300000, guid: d9e3c204e31b58f4b80095abff09d99b, type: 3}
+  - groupID: Boar
+    clips:
+    - {fileID: 8300000, guid: 52c21023df234c4468551bcdaefe3cfe, type: 3}
+  - groupID: BoarHit
+    clips:
+    - {fileID: 8300000, guid: 444113e6a9bd10f4c83c3457b6dd9a75, type: 3}
+  - groupID: Chicken
+    clips:
+    - {fileID: 8300000, guid: ad08e6b7310eb31478c8d7ab02ae0931, type: 3}
+    - {fileID: 8300000, guid: fae297f8f75282e45a7da8648c219343, type: 3}
+  - groupID: ChickenHit
+    clips:
+    - {fileID: 8300000, guid: 4a2da13b5b030cb4fab6cb871c8970ea, type: 3}
+    - {fileID: 8300000, guid: 419771ca9a83a644fa98ba8f26571372, type: 3}
+  - groupID: Zombie
+    clips:
+    - {fileID: 8300000, guid: beaf919342a871f4fa6e94705ab7d676, type: 3}
+  - groupID: ZombieHit
+    clips:
+    - {fileID: 8300000, guid: e958121cd5556754486a13ad95f939e5, type: 3}
+  - groupID: ZombieDead
+    clips:
+    - {fileID: 8300000, guid: 3be9714779235c94186ebae9c3c28314, type: 3}
+  - groupID: Campfire
+    clips:
+    - {fileID: 8300000, guid: cfe0d1bdd3935934e92673647d65c44a, type: 3}
 --- !u!4 &1815557135
 Transform:
   m_ObjectHideFlags: 0
@@ -6052,6 +6194,12 @@ MonoBehaviour:
   tracks:
   - trackName: MainMenu
     clip: {fileID: 8300000, guid: 7f753c603ad556e4a813de8537f89803, type: 3}
+  - trackName: Morning
+    clip: {fileID: 8300000, guid: 430924fd772dc984eb8b43b8cced5aef, type: 3}
+  - trackName: Night
+    clip: {fileID: 8300000, guid: 0529c8f2387f926418105f2404aece5c, type: 3}
+  - trackName: BloodMoon
+    clip: {fileID: 8300000, guid: af96b8c9d7ab76f45bea7096b533f24b, type: 3}
 --- !u!1 &1837745510
 GameObject:
   m_ObjectHideFlags: 0
@@ -7488,3 +7636,4 @@ SceneRoots:
   - {fileID: 332770530}
   - {fileID: 2000229222}
   - {fileID: 1815557135}
+  - {fileID: 1172088963}

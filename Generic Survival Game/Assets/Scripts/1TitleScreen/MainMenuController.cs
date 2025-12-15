@@ -1,33 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-
 public class MainMenuController : MonoBehaviour
 {
-
     public AudioMixer audioMixer;
     public Slider musicSlider;
     public Slider sfxSlider;
 
-
     private void Start()
     {
         LoadVolume();
-        MusicManager.Instance.PlayMusic("MainMenu");
+        // Play MainMenu track with smooth fade
+        MusicManager.Instance.PlayMusic("MainMenu", 1f);
     }
 
     public void PlayButtonClicked()
     {
         SceneManager.LoadScene("World");
+        // Optional: transition to Morning music when gameplay scene loads
+        StartCoroutine(DelayedMusicTransition("Morning", 1f));
     }
 
     public void Quit()
     {
-        Application.Quit();
+        // Explicitly use UnityEngine.Application to fix ambiguity
+        UnityEngine.Application.Quit();
     }
 
     public void UpdateMusicVolume(float volume)
@@ -53,5 +53,12 @@ public class MainMenuController : MonoBehaviour
     {
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+    }
+
+    private IEnumerator DelayedMusicTransition(string trackName, float fadeDuration)
+    {
+        // Wait one frame for the new scene to load
+        yield return null;
+        MusicManager.Instance.PlayMusic(trackName, fadeDuration);
     }
 }

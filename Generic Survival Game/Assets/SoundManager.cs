@@ -39,4 +39,14 @@ public class SoundManager : MonoBehaviour
     {
         sfx2DSource.PlayOneShot(sfxLibrary.GetClipFromName(soundName));
     }
+
+    public AudioClip GetClipPublic(string name)
+    {
+        return sfxLibrary.GetClipFromName(name);
+    }
+
+    public AudioClip GetClip(string soundName)
+    {
+        return sfxLibrary.GetClipFromName(soundName);
+    }
 }
