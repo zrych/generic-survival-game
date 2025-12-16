@@ -17,7 +17,7 @@ public class Campfire : MonoBehaviour
     [Header("Fuel Settings")]
     public float maxFuel = 40f;
     public float currentFuel;
-    public float burnRate = 0.5f; // fuel per second
+    public float burnRate = 0.5f;
 
     [Header("Cooked Food to Give")]
     [SerializeField] private Item[] foods;
@@ -25,7 +25,9 @@ public class Campfire : MonoBehaviour
     [Header("Fire Sound")]
     [SerializeField] private string fireSoundID = "Campfire";
     [SerializeField] private float maxHearingDistance = 6f;
+
     private AudioSource fireAudioSource;
+    private Transform playerTransform;
 
     private void Awake()
     {
@@ -39,16 +41,15 @@ public class Campfire : MonoBehaviour
         isLit = true;
         UpdateUI();
 
-        // Setup AudioSource for fire
-        fireAudioSource = gameObject.AddComponent<AudioSource>();
-        fireAudioSource.spatialBlend = 1f; // 3D sound
-        fireAudioSource.rolloffMode = AudioRolloffMode.Linear;
-        fireAudioSource.minDistance = 1f;
-        fireAudioSource.maxDistance = maxHearingDistance;
-        fireAudioSource.loop = true;
+        playerTransform = GameObject.FindWithTag("Player")?.transform;
 
-        AudioClip clip = SoundManager.Instance.GetClip(fireSoundID);
-        if (clip != null) fireAudioSource.clip = clip;
+        // 🔊 Setup looping fire AudioSource
+        fireAudioSource = gameObject.AddComponent<AudioSource>();
+        fireAudioSource.clip = SoundManager.Instance.GetClip(fireSoundID);
+        fireAudioSource.loop = true;
+        fireAudioSource.playOnAwake = false;
+        fireAudioSource.spatialBlend = 0f; // 2D with manual fade
+        fireAudioSource.volume = 0f;
     }
 
     private void Update()
@@ -67,64 +68,70 @@ public class Campfire : MonoBehaviour
         {
             MonsterSpawnManager spawnManager = MonsterSpawnManager.Instance;
             waveSpawnZone.gameObject.SetActive(true);
+
             DayNightController daynightController = DayNightController.Instance;
             if (daynightController.currentState == DayNightController.TimeState.Night)
             {
                 spawnManager.NightStarted();
             }
+
             LitCampfire(false);
         }
 
         HandleFireSound();
 
-        if (isWithinRange)
+        if (isWithinRange && Input.GetKeyDown(KeyCode.F))
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            InventoryUIManager inventory = InventoryUIManager.Instance;
+            for (int i = 0; i < inventory.itemSlot.Length; i++)
             {
-                InventoryUIManager inventory = InventoryUIManager.Instance;
-                for (int i = 0; i < inventory.itemSlot.Length; i++)
+                if (!inventory.itemSlot[i].isSlotSelected) continue;
+                if (inventory.itemSlot[i].item == null) return;
+
+                if (inventory.itemSlot[i].item.isConsumable && currentFuel > 0)
                 {
-                    if (inventory.itemSlot[i].isSlotSelected)
-                    {
-                        if (inventory.itemSlot[i].item == null) return;
-                        if (inventory.itemSlot[i].item.isConsumable && currentFuel > 0)
-                        {
-                            GiveCookedFood(inventory.itemSlot[i]);
-                        }
-                        else if (inventory.itemSlot[i].item.isFuel)
-                        {
-                            AddFuel(inventory.itemSlot[i].item.fuelRestore);
-                            inventory.itemSlot[i].DeductItem(1);
-                        }
-                    }
+                    GiveCookedFood(inventory.itemSlot[i]);
+                }
+                else if (inventory.itemSlot[i].item.isFuel)
+                {
+                    AddFuel(inventory.itemSlot[i].item.fuelRestore);
+                    inventory.itemSlot[i].DeductItem(1);
                 }
             }
         }
     }
 
+    // 🔥 SAME LOGIC STYLE AS Chicken.cs
     private void HandleFireSound()
     {
-        if (fireAudioSource == null || fireAudioSource.clip == null || Camera.main == null) return;
+        if (fireAudioSource == null || playerTransform == null) return;
 
-        if (currentFuel <= 0f)
+        if (!isLit || currentFuel <= 0f)
         {
-            if (fireAudioSource.isPlaying) fireAudioSource.Stop();
+            fireAudioSource.volume = Mathf.Lerp(fireAudioSource.volume, 0f, Time.deltaTime * 4f);
+            if (fireAudioSource.volume <= 0.01f && fireAudioSource.isPlaying)
+                fireAudioSource.Stop();
             return;
         }
 
-        float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        float distance = Vector2.Distance(transform.position, playerTransform.position);
 
-        if (distance <= maxHearingDistance)
+        if (distance > maxHearingDistance)
         {
-            if (!fireAudioSource.isPlaying) fireAudioSource.Play();
-            float distanceVolume = 1f - (distance / maxHearingDistance);
-            float fuelVolume = Mathf.Clamp01(currentFuel / maxFuel);
-            fireAudioSource.volume = distanceVolume * fuelVolume;
+            fireAudioSource.volume = Mathf.Lerp(fireAudioSource.volume, 0f, Time.deltaTime * 4f);
+            if (fireAudioSource.volume <= 0.01f && fireAudioSource.isPlaying)
+                fireAudioSource.Stop();
+            return;
         }
-        else
-        {
-            if (fireAudioSource.isPlaying) fireAudioSource.Stop();
-        }
+
+        if (!fireAudioSource.isPlaying)
+            fireAudioSource.Play();
+
+        float distanceVolume = 1f - (distance / maxHearingDistance);
+        float fuelVolume = Mathf.Clamp01(currentFuel / maxFuel);
+
+        float targetVolume = distanceVolume * fuelVolume;
+        fireAudioSource.volume = Mathf.Lerp(fireAudioSource.volume, targetVolume, Time.deltaTime * 4f);
     }
 
     private void GiveCookedFood(ItemSlotManager itemSlot)
@@ -172,7 +179,7 @@ public class Campfire : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             fkey.SetActive(true);
             isWithinRange = true;

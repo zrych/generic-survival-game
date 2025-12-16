@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Zombie : Monster
 {
@@ -11,6 +10,14 @@ public class Zombie : Monster
     [SerializeField] private float minIdleTime = 1f;
     [SerializeField] private float maxIdleTime = 3f;
     [SerializeField] private float stoppingDistance = 0.1f;
+
+    [Header("Idle Sound")]
+    [SerializeField] private string zombieSoundID = "Zombie";
+    [SerializeField] private float minIdleSoundDelay = 5f;
+    [SerializeField] private float maxIdleSoundDelay = 10f;
+    [SerializeField] private float maxHearingDistance = 6f;
+
+    private float idleSoundTimer;
 
     private Transform player;
     private SpriteRenderer sr;
@@ -25,14 +32,7 @@ public class Zombie : Monster
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private float obstacleCheckDistance = 0.4f;
 
-    private Campfire campfire = Campfire.Instance;
-
-    // 🧟 Idle sounds
-    private AudioSource idleAudioSource;
-    [SerializeField] private float idleSoundIntervalMin = 6f;
-    [SerializeField] private float idleSoundIntervalMax = 10f;
-    private float nextIdleSoundTime = 0f;
-    [SerializeField] private float soundHearingDistance = 6f; // fade range
+    private Campfire campfire;
 
     protected override void Start()
     {
@@ -41,21 +41,21 @@ public class Zombie : Monster
         player = GameObject.FindWithTag("Player")?.transform;
         sr = GetComponent<SpriteRenderer>();
 
-        spawnPoint = gameObject.transform.position;
+        spawnPoint = transform.position;
         ChooseIdle();
+        ResetIdleSoundTimer();
 
-        // Setup idle AudioSource
-        idleAudioSource = gameObject.AddComponent<AudioSource>();
-        idleAudioSource.spatialBlend = 1f; // 3D sound
-        idleAudioSource.rolloffMode = AudioRolloffMode.Linear;
-        idleAudioSource.minDistance = 1f;
-        idleAudioSource.maxDistance = soundHearingDistance;
-        idleAudioSource.playOnAwake = false;
+        campfire = Campfire.Instance;
     }
 
     private void ChooseIdle()
     {
         idleTimer = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
+    }
+
+    private void ResetIdleSoundTimer()
+    {
+        idleSoundTimer = UnityEngine.Random.Range(minIdleSoundDelay, maxIdleSoundDelay);
     }
 
     private Vector2 RandomPatrolPoint()
@@ -67,22 +67,21 @@ public class Zombie : Monster
     {
         UpdateAnimator();
         HandleSpriteFlip();
+        HandleIdleSound();
 
-        if (IsPlayerDetected() && !PlayerIsInCampfireRadius()) state = State.Aggro;
+        if (IsPlayerDetected() && !PlayerIsInCampfireRadius())
+            state = State.Aggro;
 
         switch (state)
         {
             case State.Idle:
                 idleTimer -= Time.deltaTime;
                 if (idleTimer <= 0f)
-                {
                     StartPatrol();
-                }
                 break;
 
             case State.Patrol:
-                float dist = Vector2.Distance(transform.position, patrolTarget);
-                if (dist <= stoppingDistance)
+                if (Vector2.Distance(transform.position, patrolTarget) <= stoppingDistance)
                 {
                     state = State.Idle;
                     ChooseIdle();
@@ -97,41 +96,6 @@ public class Zombie : Monster
                 TryAttack();
                 break;
         }
-
-        // Handle idle sound logic
-        HandleIdleSound();
-    }
-
-    private void HandleIdleSound()
-    {
-        if (player == null || SoundManager.Instance == null) return;
-
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        // only play sound if near player and not already playing
-        if (Time.time >= nextIdleSoundTime && distance <= soundHearingDistance && !idleAudioSource.isPlaying)
-        {
-            AudioClip clip = SoundManager.Instance.GetClip("Zombie");
-            if (clip != null)
-            {
-                idleAudioSource.clip = clip;
-                idleAudioSource.volume = Mathf.Clamp01(1f - (distance / soundHearingDistance));
-                idleAudioSource.Play();
-                nextIdleSoundTime = Time.time + UnityEngine.Random.Range(idleSoundIntervalMin, idleSoundIntervalMax);
-            }
-        }
-
-        // update volume fade based on distance if still playing
-        if (idleAudioSource.isPlaying)
-        {
-            idleAudioSource.volume = Mathf.Clamp01(1f - (distance / soundHearingDistance));
-        }
-    }
-
-    private bool IsPlayerDetected()
-    {
-        float distance = Vector2.Distance(transform.position, player.position);
-        return distance <= detectionRange;
     }
 
     void FixedUpdate()
@@ -140,19 +104,42 @@ public class Zombie : Monster
         {
             MoveToward(patrolTarget, moveSpeed);
         }
-        else if (state == State.Aggro)
+        else if (state == State.Aggro && player != null)
         {
-            if (player != null)
-                MoveToward(player.position, moveSpeed);
+            MoveToward(player.position, moveSpeed);
         }
         else if (state == State.Idle)
         {
             rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, 0.5f);
         }
-        else if (state == State.RunAway)
+        else if (state == State.RunAway && player != null)
         {
-            StartCoroutine(MoveAway(player.transform.position, moveSpeed));
+            StartCoroutine(MoveAway(player.position, moveSpeed));
         }
+    }
+
+    // 🔊 Chicken / Boar style idle sound
+    private void HandleIdleSound()
+    {
+        if (state != State.Idle || SoundManager.Instance == null || player == null)
+            return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance > maxHearingDistance)
+            return;
+
+        idleSoundTimer -= Time.deltaTime;
+        if (idleSoundTimer <= 0f)
+        {
+            SoundManager.Instance.PlaySound3D(zombieSoundID, transform.position);
+            ResetIdleSoundTimer();
+        }
+    }
+
+    private bool IsPlayerDetected()
+    {
+        float distance = Vector2.Distance(transform.position, player.position);
+        return distance <= detectionRange;
     }
 
     private void MoveToward(Vector2 target, float speed)
@@ -164,31 +151,39 @@ public class Zombie : Monster
             rb.linearVelocity = Vector2.zero;
             return;
         }
+
         dir.Normalize();
+
         if (IsObstacleAhead(dir) || ZombieIsInCampfireRadius())
         {
             patrolTarget = RandomPatrolPoint();
             return;
         }
+
         rb.linearVelocity = dir * speed;
     }
 
     private IEnumerator MoveAway(Vector2 hazard, float speed)
     {
         Vector2 dir = rb.position - hazard;
+
         if (dir.sqrMagnitude < 0.01f)
         {
             rb.linearVelocity = Vector2.zero;
             yield return null;
         }
+
         dir.Normalize();
+
         if (IsObstacleAhead(dir))
         {
             patrolTarget = RandomPatrolPoint();
             yield return null;
         }
+
         rb.linearVelocity = dir * speed;
         yield return new WaitForSeconds(3f);
+
         state = State.Idle;
         ChooseIdle();
     }
@@ -201,19 +196,19 @@ public class Zombie : Monster
             obstacleCheckDistance,
             obstacleMask
         );
-
         return hit.collider != null;
     }
 
     private bool ZombieIsInCampfireRadius()
     {
+        if (campfire == null) return false;
         float distance = Vector2.Distance(transform.position, campfire.transform.position);
         return distance <= campfire.fireRadius;
     }
 
     private bool PlayerIsInCampfireRadius()
     {
-        if (!campfire.isLit) return false;
+        if (campfire == null || !campfire.isLit) return false;
         float distance = Vector2.Distance(player.position, campfire.transform.position);
         return distance <= campfire.fireRadius;
     }
@@ -240,7 +235,9 @@ public class Zombie : Monster
             animator.SetTrigger("Attack");
 
         yield return new WaitForSeconds(0.4f);
-        hp.TakeDamage(attackDamage);
+
+        if (hp != null)
+            hp.TakeDamage(attackDamage);
 
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;

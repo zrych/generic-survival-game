@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Boar : WildMob
@@ -14,7 +13,7 @@ public class Boar : WildMob
     [SerializeField] private float stoppingDistance = 0.1f;
 
     [Header("Aggro")]
-    [SerializeField] private float aggroDuration = 4f;   // how long boar stays angry after hit
+    [SerializeField] private float aggroDuration = 4f;
     [SerializeField] private float chaseSpeed = 3f;
 
     [Header("Attack")]
@@ -22,9 +21,17 @@ public class Boar : WildMob
     [SerializeField] private float attackDamage = 0.5f;
     [SerializeField] private float attackCooldown = 1.0f;
 
+    [Header("Idle Sound")]
+    [SerializeField] private string boarSoundID = "Boar";
+    [SerializeField] private float minIdleSoundDelay = 4f;
+    [SerializeField] private float maxIdleSoundDelay = 9f;
+    [SerializeField] private float maxHearingDistance = 6f;
+
     private float idleTimer;
     private float aggroTimer;
     private bool canAttack = true;
+
+    private float idleSoundTimer;
 
     private Transform player;
     private SpriteRenderer sr;
@@ -44,36 +51,35 @@ public class Boar : WildMob
 
         spawnPoint = transform.position;
         ChooseIdle();
+        ResetIdleSoundTimer();
     }
 
     private void ChooseIdle()
     {
-        idleTimer = UnityEngine.Random.Range(minIdleTime, maxIdleTime); // fixed
+        idleTimer = UnityEngine.Random.Range(minIdleTime, maxIdleTime);
     }
 
-    private Vector2 RandomPatrolPoint()
+    private void ResetIdleSoundTimer()
     {
-        return spawnPoint + UnityEngine.Random.insideUnitCircle * patrolRadius; // fixed
+        idleSoundTimer = UnityEngine.Random.Range(minIdleSoundDelay, maxIdleSoundDelay);
     }
 
     void Update()
     {
         UpdateAnimator();
         HandleSpriteFlip();
+        HandleIdleSound();
 
         switch (state)
         {
             case State.Idle:
                 idleTimer -= Time.deltaTime;
                 if (idleTimer <= 0f)
-                {
                     StartPatrol();
-                }
                 break;
 
             case State.Patrol:
-                float dist = Vector2.Distance(transform.position, patrolTarget);
-                if (dist <= stoppingDistance)
+                if (Vector2.Distance(transform.position, patrolTarget) <= stoppingDistance)
                 {
                     state = State.Idle;
                     ChooseIdle();
@@ -83,9 +89,8 @@ public class Boar : WildMob
             case State.Aggro:
                 aggroTimer -= Time.deltaTime;
 
-                if (aggroTimer <= 0)
+                if (aggroTimer <= 0f)
                 {
-                    // calm again
                     state = State.Idle;
                     ChooseIdle();
                 }
@@ -103,10 +108,9 @@ public class Boar : WildMob
         {
             MoveToward(patrolTarget, moveSpeed);
         }
-        else if (state == State.Aggro)
+        else if (state == State.Aggro && player != null)
         {
-            if (player != null)
-                MoveToward(player.position, chaseSpeed);
+            MoveToward(player.position, chaseSpeed);
         }
         else if (state == State.Idle)
         {
@@ -116,7 +120,7 @@ public class Boar : WildMob
 
     private void StartPatrol()
     {
-        patrolTarget = RandomPatrolPoint();
+        patrolTarget = spawnPoint + UnityEngine.Random.insideUnitCircle * patrolRadius;
         state = State.Patrol;
     }
 
@@ -131,9 +135,7 @@ public class Boar : WildMob
         if (!canAttack || player == null)
             return;
 
-        float dist = Vector2.Distance(transform.position, player.position);
-
-        if (dist <= attackRange)
+        if (Vector2.Distance(transform.position, player.position) <= attackRange)
         {
             StartCoroutine(AttackRoutine());
         }
@@ -160,14 +162,18 @@ public class Boar : WildMob
             rb.linearVelocity = Vector2.zero;
             return;
         }
+
         dir.Normalize();
+
         if (IsObstacleAhead(dir))
         {
-            patrolTarget = RandomPatrolPoint();
+            patrolTarget = spawnPoint + UnityEngine.Random.insideUnitCircle * patrolRadius;
             return;
         }
+
         rb.linearVelocity = dir * speed;
     }
+
     private bool IsObstacleAhead(Vector2 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(
@@ -176,8 +182,24 @@ public class Boar : WildMob
             obstacleCheckDistance,
             obstacleMask
         );
-
         return hit.collider != null;
+    }
+
+    private void HandleIdleSound()
+    {
+        if (state == State.Aggro || SoundManager.Instance == null || player == null)
+            return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance > maxHearingDistance)
+            return;
+
+        idleSoundTimer -= Time.deltaTime;
+        if (idleSoundTimer <= 0f)
+        {
+            SoundManager.Instance.PlaySound3D(boarSoundID, transform.position);
+            ResetIdleSoundTimer();
+        }
     }
 
     private void HandleSpriteFlip()
