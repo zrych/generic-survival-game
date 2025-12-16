@@ -6127,7 +6127,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 52c21023df234c4468551bcdaefe3cfe, type: 3}
   - groupID: BoarHit
     clips:
-    - {fileID: 8300000, guid: 444113e6a9bd10f4c83c3457b6dd9a75, type: 3}
+    - {fileID: 8300000, guid: c272cf83dd07a4e4bbecad1389de4852, type: 3}
+    - {fileID: 8300000, guid: 7160da52d444ddf4a8f300bd25fc8fe1, type: 3}
   - groupID: Chicken
     clips:
     - {fileID: 8300000, guid: ad08e6b7310eb31478c8d7ab02ae0931, type: 3}
@@ -6148,6 +6149,9 @@ MonoBehaviour:
   - groupID: Campfire
     clips:
     - {fileID: 8300000, guid: cfe0d1bdd3935934e92673647d65c44a, type: 3}
+  - groupID: GAMEOVER
+    clips:
+    - {fileID: 8300000, guid: 723e3f481ee99ac4a955d2bb3cf51df1, type: 3}
 --- !u!4 &1815557135
 Transform:
   m_ObjectHideFlags: 0

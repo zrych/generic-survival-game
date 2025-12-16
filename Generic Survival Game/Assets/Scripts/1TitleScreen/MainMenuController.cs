@@ -13,46 +13,55 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         LoadVolume();
-        // Play MainMenu track with smooth fade
-        MusicManager.Instance.PlayMusic("MainMenu", 1f);
+
+        // Play MainMenu track with smooth fade, only if MusicManager exists
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMusic("MainMenu", 1f);
     }
 
     public void PlayButtonClicked()
     {
         SceneManager.LoadScene("World");
+
         // Optional: transition to Morning music when gameplay scene loads
         StartCoroutine(DelayedMusicTransition("Morning", 1f));
     }
 
     public void Quit()
     {
-        // Explicitly use UnityEngine.Application to fix ambiguity
         UnityEngine.Application.Quit();
     }
 
     public void UpdateMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", volume);
+        if (audioMixer != null)
+            audioMixer.SetFloat("MusicVolume", volume);
+
         PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     public void UpdateSoundVolume(float volume)
     {
-        audioMixer.SetFloat("SFXVolume", volume);
+        if (audioMixer != null)
+            audioMixer.SetFloat("SFXVolume", volume);
+
         PlayerPrefs.SetFloat("SFXVolume", volume);
 
-        // Update 2D SFX AudioSource in SoundManager
+        // Update 2D SFX AudioSource in SoundManager, only if instance exists
         if (SoundManager.Instance != null)
             SoundManager.Instance.SetSFXVolume(volume);
     }
 
     public void SaveVolume()
     {
-        audioMixer.GetFloat("MusicVolume", out float musicVolume);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        if (audioMixer != null)
+        {
+            audioMixer.GetFloat("MusicVolume", out float musicVolume);
+            PlayerPrefs.SetFloat("MusicVolume", musicVolume);
 
-        audioMixer.GetFloat("SFXVolume", out float sfxVolume);
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+            audioMixer.GetFloat("SFXVolume", out float sfxVolume);
+            PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+        }
     }
 
     public void LoadVolume()
@@ -60,8 +69,11 @@ public class MainMenuController : MonoBehaviour
         float music = PlayerPrefs.GetFloat("MusicVolume", 0f);
         float sfx = PlayerPrefs.GetFloat("SFXVolume", 0f);
 
-        musicSlider.value = music;
-        sfxSlider.value = sfx;
+        // Apply to sliders only if they exist
+        if (musicSlider != null)
+            musicSlider.value = music;
+        if (sfxSlider != null)
+            sfxSlider.value = sfx;
 
         // Apply to AudioMixer
         if (audioMixer != null)
@@ -70,15 +82,17 @@ public class MainMenuController : MonoBehaviour
             audioMixer.SetFloat("SFXVolume", sfx);
         }
 
-        // Apply to SoundManager 2D source
+        // Apply to SoundManager 2D source safely
         if (SoundManager.Instance != null)
             SoundManager.Instance.SetSFXVolume(sfx);
     }
 
     private IEnumerator DelayedMusicTransition(string trackName, float fadeDuration)
     {
-        // Wait one frame for the new scene to load
         yield return null;
-        MusicManager.Instance.PlayMusic(trackName, fadeDuration);
+
+        // Play only if MusicManager exists
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMusic(trackName, fadeDuration);
     }
 }

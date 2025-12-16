@@ -43,18 +43,24 @@ public class Campfire : MonoBehaviour
 
         playerTransform = GameObject.FindWithTag("Player")?.transform;
 
-        // 🔊 Setup looping fire AudioSource
+        // Setup looping fire AudioSource
         fireAudioSource = gameObject.AddComponent<AudioSource>();
-        fireAudioSource.clip = SoundManager.Instance.GetClip(fireSoundID);
         fireAudioSource.loop = true;
         fireAudioSource.playOnAwake = false;
         fireAudioSource.spatialBlend = 0f; // 2D sound
         fireAudioSource.volume = 0f;
+
+        // Assign clip safely
+        if (SoundManager.Instance != null)
+        {
+            AudioClip clip = SoundManager.Instance.GetClip(fireSoundID);
+            if (clip != null)
+                fireAudioSource.clip = clip;
+        }
     }
 
     private void Update()
     {
-        // Early exit if game is paused
         if (Time.timeScale == 0f)
             return;
 
@@ -107,7 +113,7 @@ public class Campfire : MonoBehaviour
 
     private void HandleFireSound()
     {
-        if (fireAudioSource == null || playerTransform == null)
+        if (fireAudioSource == null || playerTransform == null || fireAudioSource.clip == null)
             return;
 
         if (!isLit || currentFuel <= 0f)
@@ -134,13 +140,11 @@ public class Campfire : MonoBehaviour
         float distanceVolume = 1f - (distance / maxHearingDistance);
         float fuelVolume = Mathf.Clamp01(currentFuel / maxFuel);
 
-        // Apply global SFX volume
         float sfxVolumeMultiplier = 1f;
         if (SoundManager.Instance != null)
             sfxVolumeMultiplier = SoundManager.Instance.CurrentSFXVolume;
 
         float targetVolume = distanceVolume * fuelVolume * sfxVolumeMultiplier;
-
         fireAudioSource.volume = Mathf.Lerp(fireAudioSource.volume, targetVolume, Time.deltaTime * 4f);
     }
 
