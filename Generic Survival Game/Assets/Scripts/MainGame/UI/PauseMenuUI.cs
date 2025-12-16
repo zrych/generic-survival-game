@@ -13,6 +13,7 @@ public class PauseMenuUI : MonoBehaviour
         Time.timeScale = 1f;
         pauseMenuPanel.SetActive(false);
         ResumeMusic();
+        ResumeCampfire();
     }
 
     public void RestartGame()
@@ -27,6 +28,7 @@ public class PauseMenuUI : MonoBehaviour
         PlayButtonClick();
         Time.timeScale = 1f;
         ResumeMusic();
+        ResumeCampfire();
         SceneManager.LoadScene("World");
     }
 
@@ -49,6 +51,7 @@ public class PauseMenuUI : MonoBehaviour
         PlayButtonClick();
         Time.timeScale = 1f;
         ResumeMusic();
+        ResumeCampfire();
         SceneManager.LoadScene("TitleScreen");
     }
 
@@ -64,6 +67,7 @@ public class PauseMenuUI : MonoBehaviour
         Time.timeScale = 0f;
         pauseMenuPanel.SetActive(true);
         PauseMusic();
+        PauseCampfire();
     }
 
     // --- Music Handling ---
@@ -82,6 +86,20 @@ public class PauseMenuUI : MonoBehaviour
             MusicManager.Instance.MusicSource.UnPause();
         }
     }
+
+    // --- Campfire Handling ---
+    private void PauseCampfire()
+    {
+        if (Campfire.Instance != null)
+            Campfire.Instance.PauseFireAudio();
+    }
+
+    private void ResumeCampfire()
+    {
+        if (Campfire.Instance != null)
+            Campfire.Instance.ResumeFireAudio();
+    }
+
 
     // --- Button Sound ---
     private void PlayButtonClick()

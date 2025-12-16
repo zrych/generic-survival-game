@@ -33,11 +33,17 @@ public class MainMenuController : MonoBehaviour
     public void UpdateMusicVolume(float volume)
     {
         audioMixer.SetFloat("MusicVolume", volume);
+        PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     public void UpdateSoundVolume(float volume)
     {
         audioMixer.SetFloat("SFXVolume", volume);
+        PlayerPrefs.SetFloat("SFXVolume", volume);
+
+        // Update 2D SFX AudioSource in SoundManager
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.SetSFXVolume(volume);
     }
 
     public void SaveVolume()
@@ -51,8 +57,22 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadVolume()
     {
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        float music = PlayerPrefs.GetFloat("MusicVolume", 0f);
+        float sfx = PlayerPrefs.GetFloat("SFXVolume", 0f);
+
+        musicSlider.value = music;
+        sfxSlider.value = sfx;
+
+        // Apply to AudioMixer
+        if (audioMixer != null)
+        {
+            audioMixer.SetFloat("MusicVolume", music);
+            audioMixer.SetFloat("SFXVolume", sfx);
+        }
+
+        // Apply to SoundManager 2D source
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.SetSFXVolume(sfx);
     }
 
     private IEnumerator DelayedMusicTransition(string trackName, float fadeDuration)

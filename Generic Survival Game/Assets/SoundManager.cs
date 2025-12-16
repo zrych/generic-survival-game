@@ -49,4 +49,22 @@ public class SoundManager : MonoBehaviour
     {
         return sfxLibrary.GetClipFromName(soundName);
     }
+
+    public void SetSFXVolume(float value)
+    {
+        if (sfx2DSource != null)
+            sfx2DSource.volume = Mathf.Pow(10, value / 20f);
+    }
+
+    public float CurrentSFXVolume
+    {
+        get
+        {
+            if (sfx2DSource != null)
+                return sfx2DSource.volume;
+            return 1f; // default full volume
+        }
+    }
+
+
 }

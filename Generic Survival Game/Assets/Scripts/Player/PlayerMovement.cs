@@ -51,6 +51,12 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("IsSprinting", IsSprinting);
 
         // --- FOOTSTEP SOUND LOGIC ---
+        // Update footstep volume to match SFX slider via SoundManager property
+        if (SoundManager.Instance != null)
+        {
+            footstepSource.volume = SoundManager.Instance.CurrentSFXVolume;
+        }
+
         if (moveInput != Vector2.zero)
         {
             if (!footstepSource.isPlaying)

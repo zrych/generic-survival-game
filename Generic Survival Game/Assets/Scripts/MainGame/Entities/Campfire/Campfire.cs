@@ -48,12 +48,16 @@ public class Campfire : MonoBehaviour
         fireAudioSource.clip = SoundManager.Instance.GetClip(fireSoundID);
         fireAudioSource.loop = true;
         fireAudioSource.playOnAwake = false;
-        fireAudioSource.spatialBlend = 0f; // 2D with manual fade
+        fireAudioSource.spatialBlend = 0f; // 2D sound
         fireAudioSource.volume = 0f;
     }
 
     private void Update()
     {
+        // Early exit if game is paused
+        if (Time.timeScale == 0f)
+            return;
+
         if (currentFuel > 0)
         {
             waveSpawnZone.gameObject.SetActive(false);
@@ -101,10 +105,10 @@ public class Campfire : MonoBehaviour
         }
     }
 
-    // 🔥 SAME LOGIC STYLE AS Chicken.cs
     private void HandleFireSound()
     {
-        if (fireAudioSource == null || playerTransform == null) return;
+        if (fireAudioSource == null || playerTransform == null)
+            return;
 
         if (!isLit || currentFuel <= 0f)
         {
@@ -130,7 +134,13 @@ public class Campfire : MonoBehaviour
         float distanceVolume = 1f - (distance / maxHearingDistance);
         float fuelVolume = Mathf.Clamp01(currentFuel / maxFuel);
 
-        float targetVolume = distanceVolume * fuelVolume;
+        // Apply global SFX volume
+        float sfxVolumeMultiplier = 1f;
+        if (SoundManager.Instance != null)
+            sfxVolumeMultiplier = SoundManager.Instance.CurrentSFXVolume;
+
+        float targetVolume = distanceVolume * fuelVolume * sfxVolumeMultiplier;
+
         fireAudioSource.volume = Mathf.Lerp(fireAudioSource.volume, targetVolume, Time.deltaTime * 4f);
     }
 
@@ -196,5 +206,18 @@ public class Campfire : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, fireRadius);
+    }
+
+    // --- PUBLIC METHODS FOR PAUSEMENU ---
+    public void PauseFireAudio()
+    {
+        if (fireAudioSource != null && fireAudioSource.isPlaying)
+            fireAudioSource.Pause();
+    }
+
+    public void ResumeFireAudio()
+    {
+        if (fireAudioSource != null && isLit && currentFuel > 0f)
+            fireAudioSource.UnPause();
     }
 }
