@@ -38,18 +38,26 @@ public class DayNightController : MonoBehaviour
 
     private void Start()
     {
-        SetAllLights(false);
-        ogNightColor = overlayColor.color;
+        if (overlayColor != null)
+            ogNightColor = overlayColor.color;
 
-        // Start gameplay music based on current time
-        MusicManager.Instance.PlayMusic("Morning", 1f);
+        if (sceneLights != null)
+        {
+            foreach (Light2D light in sceneLights)
+            {
+                if (light != null) light.enabled = false;
+            }
+        }
+
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMusic("Morning", 1f);
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
         if (currentState == TimeState.Day && timer >= dayDuration) CycleToNight();
-        if (currentState == TimeState.Night && timer >= nightDuration) CycleToDay();
+        if ((currentState == TimeState.Night || currentState == TimeState.BloodMoon) && timer >= nightDuration) CycleToDay();
         UpdateLighting();
     }
 
@@ -59,12 +67,14 @@ public class DayNightController : MonoBehaviour
         {
             currentState = TimeState.BloodMoon;
             BeginBloodMoon();
-            MusicManager.Instance.PlayMusic("BloodMoon", 1f); // fade to BloodMoon music
+            if (MusicManager.Instance != null)
+                MusicManager.Instance.PlayMusic("BloodMoon", 1f);
         }
         else
         {
             currentState = TimeState.Night;
-            MusicManager.Instance.PlayMusic("Night", 1f); // fade to Night music
+            if (MusicManager.Instance != null)
+                MusicManager.Instance.PlayMusic("Night", 1f);
         }
 
         timer = 0f;
@@ -74,43 +84,56 @@ public class DayNightController : MonoBehaviour
 
     void CycleToDay()
     {
-        overlayColor.color = ogNightColor;
+        if (overlayColor != null)
+            overlayColor.color = ogNightColor;
+
         currentState = TimeState.Day;
         timer = 0f;
         dayCount++;
-        dayText.text = $"Day {dayCount}";
+        if (dayText != null)
+            dayText.text = $"Day {dayCount}";
+
         SetAllLights(false);
         BeginDay();
 
-        MusicManager.Instance.PlayMusic("Morning", 1f); // fade to Morning music
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayMusic("Morning", 1f);
     }
 
     private void SetAllLights(bool isOn)
     {
-        foreach (Light2D light in sceneLights) { light.enabled = isOn; }
+        if (sceneLights != null)
+        {
+            foreach (Light2D light in sceneLights)
+            {
+                if (light != null)
+                    light.enabled = isOn;
+            }
+        }
     }
 
     private void BeginNight()
     {
-        MonsterSpawnManager.Instance.NightStarted();
+        if (MonsterSpawnManager.Instance != null)
+            MonsterSpawnManager.Instance.NightStarted();
     }
 
     private void BeginDay()
     {
-        MonsterSpawnManager.Instance.DayStarted();
+        if (MonsterSpawnManager.Instance != null)
+            MonsterSpawnManager.Instance.DayStarted();
     }
 
     private void UpdateLighting()
     {
+        if (globalLight == null) return;
+
         globalLight.color = new Color(0.6f, 0.7f, 1f, 1f);
         float targetIntensity = currentState == TimeState.Day ? 1f : 0.05f;
-        globalLight.intensity = Mathf.MoveTowards(
-            globalLight.intensity,
-            targetIntensity,
-            Time.deltaTime * transitionSpeed
-        );
+        globalLight.intensity = Mathf.MoveTowards(globalLight.intensity, targetIntensity, Time.deltaTime * transitionSpeed);
 
-        StartCoroutine(FadeNight(true));
+        if (nightOverlay != null)
+            StartCoroutine(FadeNight(currentState != TimeState.Day));
 
         if (Mathf.Abs(globalLight.intensity - targetIntensity) < 0.01f)
         {
@@ -119,26 +142,34 @@ public class DayNightController : MonoBehaviour
             {
                 globalLight.color = Color.white;
                 SetAllLights(false);
-                StartCoroutine(FadeNight(false));
+                if (nightOverlay != null)
+                    StartCoroutine(FadeNight(false));
             }
         }
     }
 
     private IEnumerator FadeNight(bool isNight)
     {
+        if (nightOverlay == null) yield break;
+
         float target = isNight ? 0.65f : 0f;
         while (Mathf.Abs(nightOverlay.alpha - target) > 0.01f)
         {
             nightOverlay.alpha = Mathf.Lerp(nightOverlay.alpha, target, Time.deltaTime * fadeSpeed);
             yield return null;
         }
+        nightOverlay.alpha = target;
     }
 
     private void BeginBloodMoon()
     {
-        overlayColor.color = bloodMoonColor;
-        MonsterSpawnManager spawnManager = MonsterSpawnManager.Instance;
-        waveSpawnZone.gameObject.SetActive(true);
-        spawnManager.NightStarted();
+        if (overlayColor != null)
+            overlayColor.color = bloodMoonColor;
+
+        if (MonsterSpawnManager.Instance != null)
+            MonsterSpawnManager.Instance.NightStarted();
+
+        if (waveSpawnZone != null)
+            waveSpawnZone.SetActive(true);
     }
 }
